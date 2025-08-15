@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import RegisterModal from "@/components/modal";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { User, Settings, LogOut } from "lucide-react";
 
@@ -15,7 +15,7 @@ export default function Navbar() {
   const [openModal, setOpenModal] = useState(false);
 
   const { data: session } = useSession();
-  const handleLogin = () => signIn();
+  // const handleLogin = () => signIn();
   const handleLogout = () => signOut();
 
   return (

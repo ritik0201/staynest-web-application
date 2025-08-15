@@ -1,5 +1,6 @@
 'use client'
 
+import Image from "next/image";
 export default function Home() {
 
 
@@ -60,15 +61,15 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
-            <img src="/image/image2.jpeg" className="w-full h-48 object-cover" />
+            <Image alt="Tropical Beach" src="/image/image2.jpeg" width={400} height={192} className="w-full h-48 object-cover" />
             <p className="p-4 text-center text-gray-700 font-medium">Tropical Beach</p>
           </div>
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
-            <img src="/image/image3.jpg" className="w-full h-48 object-cover" />
+            <Image alt="Misty Mountains" src="/image/image3.jpg" width={400} height={192} className="w-full h-48 object-cover" />
             <p className="p-4 text-center text-gray-700 font-medium">Misty Mountains</p>
           </div>
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
-            <img src="/image/image4.jpg" className="w-full h-48 object-cover" />
+            <Image alt="Modern Cityscape" src="/image/image4.jpg" width={400} height={192} className="w-full h-48 object-cover" />
             <p className="p-4 text-center text-gray-700 font-medium">Modern Cityscape</p>
           </div>
         </div>

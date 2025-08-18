@@ -10,7 +10,11 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
+<<<<<<< HEAD
       router.replace("/sign-in");
+=======
+      router.replace("/");
+>>>>>>> d007f837d1345c9dade7ddabc020543bef840955
     }
   }, [status, router]);
 
@@ -23,6 +27,12 @@ export default function DashboardPage() {
       <button onClick={() => signOut({ callbackUrl: "/" })}>
         Logout
       </button>
+<<<<<<< HEAD
     </div>
   );
 }
+=======
+    </div>
+  );
+}
+>>>>>>> d007f837d1345c9dade7ddabc020543bef840955

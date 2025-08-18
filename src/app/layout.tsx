@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Providers } from "./provider";
 import { Toaster } from "react-hot-toast";
 
-
+export const metadata: Metadata = {
+  title: "Student Stay",
+  description: "Find your perfect student accommodation",
+};
 
 export default function RootLayout({
   children,
@@ -14,8 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-      >
+      <body>
         <Providers>
         <Navbar />
         {children}

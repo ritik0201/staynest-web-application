@@ -50,7 +50,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         maxLength={10}
                         onChange={(e) => setForm({ ...form, username: e.target.value })}
                     />
-                    <p className="text-sm text-purple-900 mt-1">Enter unique username</p>
+                    <p className="text-sm text-purple-900 mt-1">Username: 6–10 characters, unique</p>
                 </div>
 
                 <div>
@@ -60,7 +60,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         type="email"
                         onChange={(e) => setForm({ ...form, email: e.target.value })} required
                     />
-                    <p className="text-sm text-purple-900 mt-1">Enter unique email</p>
+                    <p className="text-sm text-purple-900 mt-1">Enter a valid email</p>
                 </div>
 
                 <div>
@@ -70,7 +70,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         type="password"
                         onChange={(e) => setForm({ ...form, password: e.target.value })}
                     />
-                    <p className="text-sm text-purple-900 mt-1">Enter strong password</p>
+                    <p className="text-sm text-purple-900 mt-1">Min 8 chars, 1 number & 1 special char</p>
                 </div>
 
                 <div>

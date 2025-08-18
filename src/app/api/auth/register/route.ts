@@ -2,10 +2,24 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { registrationSchema } from "@/schema/registrationSchema";
 
 export async function POST(req: NextRequest){
     try {
-        const { username, email, password, mobilenumber} = await req.json();
+        const body = await req.json();
+        const { username, email, password, mobilenumber } = body;
+
+        try {
+            registrationSchema.parse(body);
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                return NextResponse.json(
+                    { message: "Enter valid data", errors: error.issues },
+                    { status: 400 }
+                );
+            }
+        }
         
         if(!username || !email || !password){
             return NextResponse.json(

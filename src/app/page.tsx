@@ -7,10 +7,8 @@ export default function Home() {
     <div>
       <div className="relative bg-[url('/image/background-image.jpg')] bg-cover bg-center h-screen text-white">
 
-        {/* Content */}
         <div className="flex flex-col justify-center h-full px-6 md:px-16">
 
-          {/* Text Section */}
           <div className="mb-3 ml-4">
             <h1 className="text-2xl sm:text-3xl md:text-5xl max-w-96 font-bold mb-1 drop-shadow-lg text-gray-600">
               Welcome to Student Stay
@@ -52,7 +50,7 @@ export default function Home() {
 
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      {/* <div className="max-w-6xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-center text-blue-700 mb-6">Dream Destination</h1>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea similique reprehenderit labore animi cumque beatae.
@@ -72,7 +70,7 @@ export default function Home() {
             <p className="p-4 text-center text-gray-700 font-medium">Modern Cityscape</p>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
     </div>

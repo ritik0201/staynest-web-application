@@ -41,7 +41,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
 
         <div className="pt-4" />
                 <h2 className="text-2xl font-semibold text-center text-purple-800">Register</h2>
-
+{/* <form> */}
                 <div>
                     <input
                         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600"
@@ -58,7 +58,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600"
                         placeholder="Email"
                         type="email"
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })} required
                     />
                     <p className="text-sm text-purple-900 mt-1">Enter a valid email</p>
                 </div>
@@ -82,7 +82,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                     />
                     <p className="text-sm text-purple-900 mt-1">Enter valid mobile number</p>
                 </div>
-
+                {/* <input type='submit' />   */}
                 <button
                     onClick={handleRegister}
                     disabled={loading}
@@ -99,6 +99,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         "Register"
                     )}
                 </button>
+{/* </form> */}
             </div>
         </div>
     );

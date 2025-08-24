@@ -28,17 +28,17 @@ export default function AppLayout({
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <aside className="bg-gray-700 text-white h-screen flex flex-col w-20 md:w-64 transition-all duration-300 pt-20">
+      <aside className="bg-purple-500 text-white h-screen flex flex-col w-20 md:w-64 transition-all duration-300 pt-20">
         <ul className="menu p-2 flex-grow">
           {sidebarItems.map((item) => (
             <li key={item.href} className="mb-2">
               <Link
                 href={item.href}
-                onClick={() => setActive(item.href)} // 🔑 set clicked as active
+                onClick={() => setActive(item.href)} 
                 className={`flex items-center space-x-4 px-3 py-2 rounded-lg ${
                   active === item.href
-                    ? "bg-red-500 text-white"
-                    : "hover:bg-gray-600"
+                    ? "bg-purple-600 text-white"
+                    : "hover:bg-purple-700"
                 }`}
               >
                 <item.icon className="w-6 h-6" />

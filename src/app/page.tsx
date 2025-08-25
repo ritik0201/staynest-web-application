@@ -51,7 +51,7 @@ export default function Home() {
 
         </div>
       </div>
-      {/* <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-center text-blue-700 mb-6">Dream Destination</h1>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea similique reprehenderit labore animi cumque beatae.
@@ -71,7 +71,7 @@ export default function Home() {
             <p className="p-4 text-center text-gray-700 font-medium">Modern Cityscape</p>
           </div>
         </div>
-      </div> */}
+      </div> 
 
 
     </div>

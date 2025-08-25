@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Providers } from "./provider";
 import { Toaster } from "react-hot-toast";
+import SocialMediaSpeedDial from "@/components/speedDialMenu";
 
 export const metadata: Metadata = {
   title: "Student Stay",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Providers>
         <Navbar />
         {children}
+        <SocialMediaSpeedDial />
         <Toaster />
         </Providers>
       </body>

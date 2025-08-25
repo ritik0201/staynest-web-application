@@ -32,7 +32,7 @@ export default function Navbar() {
         <div className="hidden md:flex space-x-4">
           <a href="#hotel" className="px-4 py-2 rounded-md hover:bg-white/30 transition-colors duration-200">Hotel</a>
           <a href="#contact" className="px-4 py-2 rounded-md hover:bg-white/30 transition-colors duration-200">Contact</a>
-          <a href="#dashboard" className="px-4 py-2 rounded-md hover:bg-white/30 transition-colors duration-200">Dashboard</a>
+          <a href="/user-profile" className="px-4 py-2 rounded-md hover:bg-white/30 transition-colors duration-200">Dashboard</a>
         </div>
 
         {/* Right: Desktop buttons */}

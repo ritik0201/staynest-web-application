@@ -1,22 +1,53 @@
 'use client'
 
 import Image from "next/image";
-export default function Home() {
+import { FlipWords } from "@/components/ui/flip-words";
 
+export default function Home() {
+  const words = ["STAY", "PLEACE", "REST ROOM", "ON CENTER"];
 
   return (
     <div>
       <div className="relative bg-[url('/image/background-image.jpg')] bg-cover bg-center h-screen text-white">
 
-        <div className="flex flex-col justify-center h-full px-6 md:px-16">
+        <div className="flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-30 ">
+
+
+          <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block w-[160] md:w-[160px]  ml-2 md:ml-4">
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </span>
+            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-transparent py-0.5 px-4 ring-1 ring-white/10 ">
+              <span>
+                Ready for Exam
+              </span>
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 24 24"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.75 8.75L14.25 12L10.75 15.25"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </div>
+            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+          </button>
+
 
           <div className="mb-3 ml-4">
-            <h1 className="text-2xl sm:text-3xl md:text-5xl max-w-96 font-bold mb-1 drop-shadow-lg text-gray-600">
-              Welcome to Student Stay
+            <h1 className="text-2xl sm:text-3xl md:text-5xl max-w-136 font-bold mb-1 drop-shadow-lg text-gray-700">
+              Welcome to <br /> Student <FlipWords words={words} />
             </h1>
-            <p className="text-sm sm:text-base md:text-lg leading-relaxed max-w-[500px] text-gray-500 drop-shadow-sm">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo magni
-              necessitatibus beatae quia facilis eaque dolor.
+            <p className="text-sm sm:text-base md:text-[16px] leading-relaxed max-w-[500px] text-black drop-shadow-sm">
+              “A calm stay before the big test,
+              So you can give your absolute best.”
             </p>
           </div>
 
@@ -51,7 +82,7 @@ export default function Home() {
 
         </div>
       </div>
-        <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-center text-blue-700 mb-6">Dream Destination</h1>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea similique reprehenderit labore animi cumque beatae.
@@ -71,7 +102,7 @@ export default function Home() {
             <p className="p-4 text-center text-gray-700 font-medium">Modern Cityscape</p>
           </div>
         </div>
-      </div> 
+      </div>
 
 
     </div>

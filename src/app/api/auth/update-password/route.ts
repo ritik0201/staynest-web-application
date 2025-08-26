@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
+import nodemailer from "nodemailer";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth"; // If using next-auth
 import  {authOptions}  from "@/app/api/auth/[...nextauth]/route"; // your next-auth config
@@ -45,6 +46,23 @@ export async function POST(req: NextRequest) {
     // Update password
     user.password = hashedPassword;
     await user.save();
+
+    const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS,
+                },
+            });
+    
+            // console.log(randomPassword)
+            // Send generated password via email
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: session.user.email,
+                subject: "Password changed Successful 🎉",
+                text: `Hi ${session.user.name},\n\nPlease keep this safe.`,
+            });
 
     return NextResponse.json(
       { message: "Password updated successfully" },

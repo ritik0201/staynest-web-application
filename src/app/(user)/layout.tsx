@@ -50,7 +50,7 @@ export default function AppLayout({
       </aside>
 
       {/* Page Content */}
-      <main className="flex-grow overflow-y-auto p-6 bg-base-100 mt-20">
+      <main className="flex-grow overflow-y-auto p-0 bg-base-100">
         {children}
       </main>
     </div>

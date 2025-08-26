@@ -4,7 +4,8 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 
-const authOptions: NextAuthOptions = {
+// ✅ Export this so we can use it in other files (like update-password)
+export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
 
   providers: [
@@ -40,7 +41,7 @@ const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        // Return basic user data (for JWT)
+        // Return basic user data (for JWT + session)
         return {
           id: user._id.toString(),
           email: user.email,
@@ -63,7 +64,7 @@ const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token.user) {
-        session.user = token.user;
+        session.user = token.user as any;
       }
       return session;
     },
@@ -74,7 +75,6 @@ const authOptions: NextAuthOptions = {
   },
 };
 
+// ✅ Export handler
 const handler = NextAuth(authOptions);
-
-// App Router needs both GET and POST exports
 export { handler as GET, handler as POST };

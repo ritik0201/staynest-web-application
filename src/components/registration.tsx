@@ -23,7 +23,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
         if (res.ok) {
             handleClose();
             router.push('/');
-            toast.success('Registration successful — check your email for your password');
+            toast.success('Registration successful check your email for your password');
         } else {
             const data = await res.json();
             toast.error(data.message || 'Registration failed');

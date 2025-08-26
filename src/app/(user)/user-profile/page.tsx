@@ -30,7 +30,7 @@ export default function UserProfile() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 via-white to-purple-200 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 via-white to-purple-200 p-4 pt-20">
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-8 flex flex-col md:flex-row items-center md:items-start gap-8">
         
         {/* Left Profile Section */}

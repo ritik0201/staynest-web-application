@@ -102,6 +102,9 @@ export default function Navbar() {
             <a href="#hotel" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors">Hotel</a>
             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors">Contact</a>
             <a href="#dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors">Dashboard</a>
+            <a href="/user-profile" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors">User profile</a>
+            <a href="/booked-room" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors">Booked room</a>
+            <a href="/new-room" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors">Add room</a>
 
             {!session ? (
               <button

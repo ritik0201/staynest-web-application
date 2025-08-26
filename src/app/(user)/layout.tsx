@@ -23,18 +23,18 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const [active, setActive] = useState(pathname); // default from current route
+  const [active, setActive] = useState(pathname);
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
-      <aside className="bg-purple-500 text-white h-screen flex flex-col w-20 md:w-64 transition-all duration-300 pt-20">
+      {/* Sidebar (hidden on mobile, shown from md+) */}
+      <aside className="hidden md:flex bg-purple-500 text-white h-screen flex-col w-20 md:w-64 transition-all duration-300 pt-20">
         <ul className="menu p-2 flex-grow">
           {sidebarItems.map((item) => (
             <li key={item.href} className="mb-2">
               <Link
                 href={item.href}
-                onClick={() => setActive(item.href)} 
+                onClick={() => setActive(item.href)}
                 className={`flex items-center space-x-4 px-3 py-2 rounded-lg ${
                   active === item.href
                     ? "bg-purple-600 text-white"

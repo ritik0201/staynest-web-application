@@ -1,12 +1,10 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import GoogleProvider from "next-auth/providers/google";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 
 const authOptions: NextAuthOptions = {
-
   session: { strategy: "jwt" },
 
   providers: [
@@ -21,8 +19,10 @@ const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
+        // Connect to database
         await dbConnect();
 
+        // Find user by email OR username
         const user = await User.findOne({
           $or: [
             { email: credentials.email },
@@ -34,13 +34,13 @@ const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        const isMatch = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
+        // Check password
+        const isMatch = await bcrypt.compare(credentials.password, user.password);
+        if (!isMatch) {
+          throw new Error("Invalid credentials");
+        }
 
-        if (!isMatch) throw new Error("Invalid credentials");
-
+        // Return basic user data (for JWT)
         return {
           id: user._id.toString(),
           email: user.email,
@@ -48,11 +48,6 @@ const authOptions: NextAuthOptions = {
         };
       },
     }),
-
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID!,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    // }),
   ],
 
   callbacks: {
@@ -66,7 +61,6 @@ const authOptions: NextAuthOptions = {
       }
       return token;
     },
-
     async session({ session, token }) {
       if (token.user) {
         session.user = token.user;
@@ -76,9 +70,11 @@ const authOptions: NextAuthOptions = {
   },
 
   pages: {
-    signIn: "/sign-in",
+    signIn: "/sign-in", // Your custom login page
   },
 };
 
 const handler = NextAuth(authOptions);
+
+// App Router needs both GET and POST exports
 export { handler as GET, handler as POST };

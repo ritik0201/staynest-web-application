@@ -7,7 +7,7 @@ interface Location {
 
 export interface IRoom extends Document {
     title: string;
-    description: string;
+    nearByCentre: string;
     address: {
         street: string;
         city: string;
@@ -17,7 +17,7 @@ export interface IRoom extends Document {
     pricePerHour: number;
     location: Location;
     currentlocation: Location;
-    amenities: ('wifi' |'AC' | 'parking' | 'TV')[];
+    amenities: ('wifi' |'AC' | 'parking' | 'FAN')[];
     noOfPeople: number
     images: string[]
     userId: Types.ObjectId;
@@ -30,7 +30,7 @@ const roomSchema = new Schema<IRoom>({
         type: String,
         required: true,
     },
-    description: {
+    nearByCentre: {
         type: String,
         required: true,
     },

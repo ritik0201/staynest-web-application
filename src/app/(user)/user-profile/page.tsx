@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { signOut, useSession } from "next-auth/react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';

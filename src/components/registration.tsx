@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CircularProgress from "@mui/material/CircularProgress";
-import toast from 'react-hot-toast';
+import { toast } from "sonner";
 
 export default function RegisterPage({ handleClose }: { handleClose: () => void }) {
     const [form, setForm] = useState({ username: '', email: '', mobilenumber: '' });

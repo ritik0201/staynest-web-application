@@ -2,7 +2,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 

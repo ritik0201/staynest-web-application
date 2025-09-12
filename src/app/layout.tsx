@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Providers } from "./provider";
-import { Toaster } from "react-hot-toast";
+// import { Toaster } from "react-hot-toast";
+import { Toaster } from "@/components/ui/sonner"
+
 import SocialMediaSpeedDial from "@/components/speedDialMenu";
 
 export const metadata: Metadata = {

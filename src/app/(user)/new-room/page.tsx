@@ -18,7 +18,7 @@ export default function NewRoom() {
   const [loadingRoom, setLoadingRoom] = useState(false);
 
   const [formData, setFormData] = useState({
-    title: "",
+    roomOwner: "",
     nearByCentre: "",
     street: "",
     city: "",
@@ -98,8 +98,8 @@ export default function NewRoom() {
       data.append("userId", session.user.id);
 
       if (location) {
-        data.append("latitude", location.latitude.toString());
-        data.append("longitude", location.longitude.toString());
+        data.append("currentlatitude", location.latitude.toString());
+        data.append("currentlongitude", location.longitude.toString());
       }
 
       const res = await fetch("/api/rooms", {
@@ -112,7 +112,7 @@ export default function NewRoom() {
 
         // reset form
         setFormData({
-          title: "",
+          roomOwner: "",
           nearByCentre: "",
           street: "",
           city: "",
@@ -191,7 +191,7 @@ export default function NewRoom() {
             </div>
           </div>
 
-          {/* Room Title */}
+          {/* Room roomOwner */}
           <div className="w-full md:w-4/12 md:mt-8">
             <h4 className="text-black text-1xl font-semibold mt-6 ">
               Room owner full Name
@@ -200,8 +200,8 @@ export default function NewRoom() {
               className="border-2 border-gray-400 rounded-md p-2 mt-2 w-full md:w-[265px]"
               type="text"
               placeholder="e.g., Ram lal yadav"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              value={formData.roomOwner}
+              onChange={(e) => setFormData({ ...formData, roomOwner: e.target.value })}
             />
             <h4 className="text-black text-1xl font-semibold mt-4 ">
               Nearby Centre

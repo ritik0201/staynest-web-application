@@ -6,7 +6,7 @@ interface Location {
 }
 
 export interface IRoom extends Document {
-    title: string;
+    roomOwner: string;
     nearByCentre: string;
     address: {
         street: string;
@@ -26,7 +26,7 @@ export interface IRoom extends Document {
 }
 
 const roomSchema = new Schema<IRoom>({
-    title: {
+    roomOwner: {
         type: String,
         required: true,
     },

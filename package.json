@@ -15,6 +15,7 @@
     "@mui/icons-material": "^7.3.1",
     "@mui/material": "^7.2.0",
     "@tabler/icons-react": "^3.34.1",
+    "aos": "^2.3.4",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",
@@ -38,6 +39,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/aos": "^3.0.7",
     "@types/node": "^20",
     "@types/nodemailer": "^7.0.1",
     "@types/react": "^19",

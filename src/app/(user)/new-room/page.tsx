@@ -98,8 +98,8 @@ export default function NewRoom() {
       data.append("userId", session.user.id);
 
       if (location) {
-        data.append("latitude", location.latitude.toString());
-        data.append("longitude", location.longitude.toString());
+        data.append("currentlatitude", location.latitude.toString());
+        data.append("currentlongitude", location.longitude.toString());
       }
 
       const res = await fetch("/api/rooms", {

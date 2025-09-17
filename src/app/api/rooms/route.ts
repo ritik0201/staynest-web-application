@@ -104,6 +104,8 @@ export async function POST(req: Request) {
 
 export async function GET() {
   await dbConnect();
-  const rooms = await Room.find().populate("userId", "username email");
+  const rooms = await Room.find()
+    .sort({ createdAt: -1 })
+    .populate("userId", "username email");
   return NextResponse.json({ rooms }, { status: 200 });
 }

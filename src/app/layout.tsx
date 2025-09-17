@@ -6,7 +6,7 @@ import { Providers } from "./provider";
 import { Toaster } from "@/components/ui/sonner"
 
 import SocialMediaSpeedDial from "@/components/speedDialMenu";
-
+import AOSProvider from "@/components/AOSProvider";
 export const metadata: Metadata = {
   title: "Student Stay",
   description: "Find your perfect student accommodation",
@@ -22,6 +22,7 @@ export default function RootLayout({
       <body>
         <Providers>
         <Navbar />
+        <AOSProvider />
         {children}
         <SocialMediaSpeedDial />
         <Toaster />

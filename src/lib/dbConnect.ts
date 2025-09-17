@@ -1,45 +1,22 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
-interface MongooseCache {
-  conn: Mongoose | null;
-  promise: Promise<Mongoose> | null;
-}
 
-declare global {
-  var mongoose: MongooseCache;
-}
-
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-async function dbConnect(): Promise<Mongoose> {
-  if (cached.conn) {
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    // We start the connection and store the promise.
-    cached.promise = mongoose.connect(MONGODB_URI, {
-      dbName: 'studentStayDB', 
-      bufferCommands: false
-    });
-  }
-
+async function dbConnect(): Promise<typeof mongoose> {
   try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
+    const connection = await mongoose.connect(MONGODB_URI, {
+      dbName: 'studentStayDB',
+      bufferCommands: false,
+    });
+    console.log('MongoDB connected successfully');
+    return connection;
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
   }
-    return cached.conn!;
 }
-
 export default dbConnect;

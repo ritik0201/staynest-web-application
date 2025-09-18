@@ -1,10 +1,31 @@
 'use client'
 import Image from "next/image";
 import { FlipWords } from "@/components/ui/flip-words";
-import { useState } from "react";
 import Footer from "@/components/footer";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const centerQuery = searchParams.get("center")?.toLowerCase() || "";
+  const cityQuery = searchParams.get("city")?.toLowerCase() || "";
+  const guestsQuery = Number(searchParams.get("guests") || 0);
+  const [center, setCenter] = useState("");
+  const [city, setCity] = useState("");
+  const [guests, setGuests] = useState("");
+
+  const handleSearch = () => {
+    const query = new URLSearchParams();
+    if (center) query.append("center", center);
+    if (city) query.append("city", city);
+    if (guests) query.append("guests", guests);
+
+    router.push(`/rooms?${query.toString()}`);
+  };
+
   const words = ["STAY", "PEACE", "REST ROOM", "ON CENTER"];
 
   const [openPanel, setOpenPanel] = useState<string | null>("panel1");
@@ -20,7 +41,7 @@ export default function Home() {
         <div className="flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-20 ">
 
           {/* Header Section of home page*/}
-          <button data-aos="fade-up" data-aos-delay="300"  className="bg-gray-600 w-fit p-0.5 md:p-1 px-2 md:px-4 text-sm border-none rounded-2xl ml-1 md:ml-2 text-center flex justify-center items-center 
+          <button data-aos="fade-up" data-aos-delay="300" className="bg-gray-600 w-fit p-0.5 md:p-1 px-2 md:px-4 text-sm border-none rounded-2xl ml-1 md:ml-2 text-center flex justify-center items-center 
   hover:scale-105 active:scale-95 transition-transform duration-300 ease-in-out animate-bounce">
             🎉 get ready for exam
           </button>
@@ -42,20 +63,30 @@ export default function Home() {
                 type="text"
                 placeholder="Enter your center name"
                 className="w-full p-3 rounded-md border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={center}
+                onChange={(e) => setCenter(e.target.value)}
               />
 
               <input
-                type="date"
+                type="text"
+                placeholder="Enter your city"
                 className="w-full p-3 rounded-md border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
               />
 
               <input
                 type="number"
                 placeholder="Number of Guest"
                 className="w-full p-3 rounded-md border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
               />
 
-              <button className="w-full md:w-auto bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 rounded-md transition">
+              <button
+                className="w-full md:w-auto bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 rounded-md transition"
+                onClick={handleSearch}
+              >
                 Search
               </button>
 
@@ -200,21 +231,21 @@ export default function Home() {
       </div> */}
 
       <div className='flex justify-center'>
-    <div className='py-30 container'>
-        <h1 className='text-4xl font-bold text-purple-700 text-center'>Facility we Provide</h1> 
-        <p className='text-center px-40 mt-10'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis obcaecati molestias alias quasi iure ratione vel, nam voluptates tempore veniam, explicabo odit tenetur consectetur tempora sint aut quam, at laudantium!</p>
-        <div className='flex flex-wrap w-full justify-center mt-15'>
-          <div data-aos="zoom-in"data-aos-delay="900" className='h-[200px] w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-red-300'></div>
-          <div data-aos="zoom-in"data-aos-delay="600" className='h-[200px] w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-red-300'></div>
-          <div data-aos="zoom-in"data-aos-delay="300"className='h-[200px] w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-red-300'></div>
-          <div data-aos="zoom-in"data-aos-delay="600"className='h-[200px] w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-red-300'></div>
-          <div data-aos="zoom-in"data-aos-delay="900"className='h-[200px] w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-red-300'></div>
-         
-        </div>
-    </div>
-    </div>
+        <div className='py-30 container'>
+          <h1 className='text-4xl font-bold text-purple-700 text-center'>Facility we Provide</h1>
+          <p className='text-center px-2 md:px-40 md:text-sm mt-4 md:mt-10'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis obcaecati molestias alias quasi iure ratione vel, nam voluptates tempore veniam, explicabo odit tenetur consectetur tempora sint aut quam, at laudantium!</p>
+          <div className='flex flex-wrap w-full justify-center mt-5 md:mt-15'>
+            <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
+            <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
+            <div data-aos="zoom-in" data-aos-delay="300" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
+            <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
+            <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
 
-    <Footer />
+          </div>
+        </div>
+      </div>
+
+      <Footer />
     </div>
 
   );

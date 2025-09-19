@@ -10,8 +10,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import ToysIcon from "@mui/icons-material/Toys";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
-
-
+import Link from "next/link";
 
 import React from 'react'
 
@@ -82,6 +81,7 @@ export default function RoomCard() {
             name: room.roomOwner,
             nearByCentre: room.nearByCentre,
             price: room.pricePerHour,
+            id : room._id
         }));
 
     if (loading) {
@@ -100,7 +100,8 @@ export default function RoomCard() {
       <div className="flex-1 p-6 flex flex-col gap-6 items-center">
         {rooms.length > 0 ? (
           rooms.map((room) => (
-            <div
+            <Link
+              href={`/rooms/${room._id}`}
               key={room._id}
               className="flex flex-col sm:flex-row w-full bg-white shadow-md rounded-2xl overflow-hidden border hover:shadow-xl transition-shadow duration-300"
             >
@@ -179,7 +180,7 @@ export default function RoomCard() {
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <div className="text-gray-600 mt-6">No rooms available.</div>

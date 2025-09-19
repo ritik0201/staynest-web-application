@@ -34,10 +34,10 @@ export default function Navbar() {
         {/* Center: Desktop nav links */}
         <div className="hidden md:flex space-x-4 text-white">
           <a
-            href="#hotel"
+            href="/rooms"
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
-            Hotel
+            Rooms
           </a>
           <a
             href="#contact"
@@ -137,11 +137,11 @@ export default function Navbar() {
         <div className="md:hidden bg-white/30 backdrop-blur-md overflow-hidden">
           <div className="flex flex-col px-4 py-3 space-y-1 text-white">
             <a
-              href="#hotel"
+              href="/rooms"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
-              Hotel
+              Rooms
             </a>
             <a
               href="#contact"

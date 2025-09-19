@@ -3,6 +3,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import Link from "next/link";
 
 // Fix marker icon issue in Next.js
 const customIcon = new L.Icon({
@@ -20,6 +21,7 @@ interface Location {
   name: string;
   price: number;
   nearByCentre: string;
+  id: string;
 }
 
 interface MapProps {
@@ -51,7 +53,9 @@ export default function StudentStayMap({ locations }: MapProps) {
             }}
           >
             <Popup>
-              <div>
+              <Link
+                href={`/rooms/${loc.id}`}
+              >
                 <p className=" font-semibold ">Near by centre: {loc.nearByCentre}</p>
                 <h3 className="text-gray-600 ">Owner: {loc.name}</h3>
                 <p className="text-green-600">₹{loc.price} / hour</p>
@@ -68,7 +72,7 @@ export default function StudentStayMap({ locations }: MapProps) {
                 >
                   Click here for direction.
                 </button>
-              </div>
+              </Link>
             </Popup>
           </Marker>
         ))}

@@ -235,11 +235,26 @@ export default function Home() {
           <h1 className='text-4xl font-bold text-purple-700 text-center'>Facility we Provide</h1>
           <p className='text-center px-2 md:px-40 md:text-sm mt-4 md:mt-10'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis obcaecati molestias alias quasi iure ratione vel, nam voluptates tempore veniam, explicabo odit tenetur consectetur tempora sint aut quam, at laudantium!</p>
           <div className='flex flex-wrap w-full justify-center mt-5 md:mt-15'>
-            <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
-            <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
-            <div data-aos="zoom-in" data-aos-delay="300" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
-            <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
-            <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400'></div>
+            <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
+              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="money-bag" />
+              <p className="text-xl font-bold text-white">Affordable Price</p>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
+              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/sand-clock-1.png" alt="sand-clock-1" />
+              <p className="text-xl font-bold text-white">Save Time</p>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="300" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
+              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/bed.png" alt="bed" />
+              <p className="text-xl font-bold text-white">Comfortable Stay</p>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
+              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/shower.png" alt="shower" />
+              <p className="text-xl font-bold text-white">Shower</p>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
+              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/real-estate.png" alt="real-estate" />
+              <p className="text-xl font-bold text-white">Shelter</p>
+            </div>
 
           </div>
         </div>

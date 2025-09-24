@@ -14,7 +14,7 @@
 
 // export default function StudentStayMap() {
 //   return (
-//     <div className="pt-20"> {/* 👈 padding top (2rem) */}
+//     <div className="pt-20">
 //       <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
 //         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
 //           <Marker position={center} />

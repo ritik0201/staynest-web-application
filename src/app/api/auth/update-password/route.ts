@@ -3,9 +3,8 @@ import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth"; // If using next-auth
-import  {authOptions}  from "@/app/api/auth/[...nextauth]/route"; // your next-auth config
-
+import { getServerSession } from "next-auth"; 
+import  {authOptions}  from "@/app/api/auth/[...nextauth]/route"; 
 export async function POST(req: NextRequest) {
   try {
     await dbConnect();
@@ -55,7 +54,6 @@ export async function POST(req: NextRequest) {
                 },
             });
     
-            // console.log(randomPassword)
             // Send generated password via email
             await transporter.sendMail({
                 from: process.env.EMAIL_USER,

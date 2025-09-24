@@ -11,13 +11,13 @@ import ToysIcon from "@mui/icons-material/Toys";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-
 import React from 'react'
 
 const StudentStayMap = dynamic(() => import("@/components/StudentStayMap"), {
   ssr: false,
   loading: () => <p>Loading map...</p>,
 });
+
 const getAmenityDetails = (amenity: string) => {
     const lower = amenity.toLowerCase();
 

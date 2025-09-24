@@ -4,7 +4,7 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 
-// ✅ Export this so we can use it in other files (like update-password)
+// Export this so we can use it in other files 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
 
@@ -77,6 +77,6 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-// ✅ Export handler
+// Export handler
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

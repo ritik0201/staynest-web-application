@@ -10,7 +10,7 @@ import crypto from "crypto";
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { username, email, mobilenumber } = body; // password removed
+        const { username, email, mobilenumber } = body;
 
         // Validate input without password
         try {
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        console.log('Registering user:', { username, email, mobilenumber });
+        //console.log('Registering user:', { username, email, mobilenumber });
         await dbConnect();
 
         const existingUser = await User.findOne({ email });
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Generate secure random password
-        const randomPassword = crypto.randomBytes(6).toString("base64"); // ~8 chars
+        const randomPassword = crypto.randomBytes(8).toString("base64"); // ~8 chars
         const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
         const newUser = new User({
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
         await newUser.save();
 
-        // Setup email transport.2
+        // Setup email transport
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -64,7 +64,6 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        // console.log(randomPassword)
         // Send generated password via email
         await transporter.sendMail({
             from: process.env.EMAIL_USER,

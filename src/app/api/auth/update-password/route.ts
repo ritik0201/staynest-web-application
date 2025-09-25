@@ -76,12 +76,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const now = new Date();
+    const dateTime = now.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
     // Send generated password via email
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: session.user.email,
       subject: "Password changed Successful 🎉",
-      text: `Hi ${session.user.name},\n\nPlease keep this safe.`,
+      text: `Hi ${session.user.name},\n\nPlease keep this safe. \n ${dateTime}`,
     });
 
     return NextResponse.json(

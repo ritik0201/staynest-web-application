@@ -63,11 +63,11 @@ export default function NewRoom() {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-        toast.success("Location added ✅");
+        toast.success("Location added ");
         setLoadingLocation(false);
       },
       (error) => {
-        toast.error("Failed to get location ❌");
+        toast.error("Failed to get location ");
         setLoadingLocation(false);
       }
     );
@@ -108,7 +108,7 @@ export default function NewRoom() {
       });
 
       if (res.ok) {
-        toast.success("Room added successfully ✅");
+        toast.success("Room added successfully ");
 
         // reset form
         setFormData({
@@ -127,11 +127,11 @@ export default function NewRoom() {
         setImages([null, null, null, null]);
         setLocation(null);
       } else {
-        toast.error("Failed to add room ❌");
+        toast.error("Failed to add room ");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong ❌");
+      toast.error("Something went wrong ");
     } finally {
       setLoadingRoom(false);
     }

@@ -34,7 +34,7 @@ export default function RoomDetailPage() {
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-3xl pt-20">
+    <div className="p-6 pt-20">
      {/* {room._id} */}
      {id}
     </div>

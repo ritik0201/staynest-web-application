@@ -66,6 +66,9 @@ export async function POST(req: Request) {
       userId: formData.get("userId") as string,
     });
 
+
+    const now = new Date();
+    const dateTime = now.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
     // Email notification
     const user = await User.findById(room.userId);
     if (user) {
@@ -83,7 +86,7 @@ export async function POST(req: Request) {
           to: user.email,
           subject: "Room Created Successfully! 🎉",
           html: `<h1>Hi ${user.username},</h1>
-                 <p>Your room "<b>${room.roomOwner}</b>" has been successfully listed.</p>`,
+                 <p>Your room "<b>${room.roomOwner}</b>" has been successfully listed.</p> \n ${dateTime}`,
         });
       } catch (emailError) {
         console.error("Email send failed:", emailError);

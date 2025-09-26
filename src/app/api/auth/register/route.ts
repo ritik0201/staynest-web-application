@@ -64,12 +64,15 @@ export async function POST(req: NextRequest) {
             },
         });
 
+        const now = new Date();
+        const dateTime = now.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
         // Send generated password via email
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
             subject: "Registration Successful 🎉",
-            text: `Hi ${username},\n\nYour account has been created successfully.\n\nUsername: ${username}\nPassword: ${randomPassword}\n\nPlease keep this safe.`,
+            text: `Hi ${username},\n\nYour account has been created successfully.\n\nUsername: ${username}\nPassword: ${randomPassword}\n\nPlease keep this safe. \n ${dateTime}`,
         });
 
         return NextResponse.json(

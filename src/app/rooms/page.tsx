@@ -1,17 +1,15 @@
 'use client'
 import { useEffect, useState } from "react"
-import CellWifiIcon from '@mui/icons-material/CellWifi';
 import TvIcon from '@mui/icons-material/Tv';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StarIcon from '@mui/icons-material/Star';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import ToysIcon from "@mui/icons-material/Toys";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from 'react'
+import { FanIcon, AirVentIcon, WifiIcon } from "lucide-react";
 
 const StudentStayMap = dynamic(() => import("@/components/StudentStayMap"), {
   ssr: false,
@@ -23,17 +21,17 @@ const getAmenityDetails = (amenity: string) => {
 
     switch (lower) {
         case "wifi":
-            return { Icon: CellWifiIcon, label: "Free WiFi" };
+            return { Icon: WifiIcon, label: "Free WiFi" };
         case "ac":
         case "air conditioner":
-            return { Icon: AcUnitIcon, label: "AC" };
+            return { Icon: AirVentIcon, label: "AC" };
         case "tv":
         case "smart tv":
             return { Icon: TvIcon, label: "Smart TV" };
         case "parking":
             return { Icon: LocalParkingIcon, label: "Free Parking" };
         case "fan":
-            return { Icon: ToysIcon, label: "Fan" };
+            return { Icon: FanIcon, label: "Fan" };
         default:
             return { Icon: null, label: amenity };
     }

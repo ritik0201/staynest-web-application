@@ -7,7 +7,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, CircularProgress } from '@mui/material';
 
 export default function UserProfile() {
   const { data: session } = useSession();
@@ -15,9 +15,11 @@ export default function UserProfile() {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const res = await fetch("/api/auth/update-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -26,6 +28,7 @@ export default function UserProfile() {
     const data = await res.json();
     setMessage(data.message);
     toast.success(data.message);
+    setLoading(false);
     setOpen(false);
   };
 
@@ -118,7 +121,7 @@ export default function UserProfile() {
               onChange={(e) => setNewPassword(e.target.value)}
               fullWidth
             />
-            {message && <p className="text-sm text-green-600">{message}</p>}
+            {message && <p className="text-sm text-purple-700">{message}</p>}
             <DialogActions>
               <Button onClick={() => setOpen(false)} color="inherit">Cancel</Button>
               <Button 
@@ -127,7 +130,14 @@ export default function UserProfile() {
                 color="secondary" 
                 className="bg-purple-600 hover:bg-purple-700"
               >
-                Update
+                {loading ? (
+                            <>
+                              <CircularProgress size={20} color="inherit" />
+                              <span className='ml-2'> Changing...</span>
+                            </>
+                          ) : (
+                            "Change Password"
+                          )}
               </Button>
             </DialogActions>
           </form>

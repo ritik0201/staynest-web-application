@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Generate secure random password
-        const randomPassword = crypto.randomBytes(8).toString("base64"); // ~8 chars
+        const randomPassword = crypto.randomBytes(6).toString("base64"); // ~8 chars
         const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
         const newUser = new User({

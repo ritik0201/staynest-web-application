@@ -112,7 +112,7 @@ export default function Home() {
           className="text-center text-gray-600 mt-4 md:px-30"
         >
           We are a dedicated platform created especially for students who travel
-          across cities to appear for competitive and university exams. We
+          across cities to appear for competitive and University exams. We
           understand how stressful it can be to find a place to rest before an
           important test.
         </p>
@@ -142,8 +142,8 @@ export default function Home() {
                 {openPanel === "panel1" && (
                   <div className="p-4 text-gray-700 bg-purple-50">
                     We are a dedicated platform created especially for students who
-                    travel across cities to appear for competitive and university
-                    exams. We understand how stressful it can be to find a place to
+                    travel across cities to appear for competitive and University 
+                    exams.  We understand how stressful it can be to find a place to
                     rest before an important test..
                   </div>
                 )}
@@ -155,7 +155,7 @@ export default function Home() {
                   className={"w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-white rounded-t-lg bg-purple-600 hover:bg-purple-700"}
                   onClick={() => togglePanel("panel2")}
                 >
-                  Affordable, Comfortable Rooms Near Exams
+                  Affordable, Comfortable Rooms Near Exams Centers
                   <span>{openPanel === "panel2" ? "−" : "+"}</span>
                 </button>
                 {openPanel === "panel2" && (
@@ -196,7 +196,7 @@ export default function Home() {
       {/* <div className="max-w-6xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-center text-blue-700 mb-6">Dream Destination</h1>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea similique reprehenderit labore animi cumque beatae.
+           ipsum dolor sit amet consectetur adipisicing elit. Ea similique reprehenderit labore animi cumque beatae.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -233,7 +233,7 @@ export default function Home() {
       <div className='flex justify-center'>
         <div className='py-30 container'>
           <h1 className='text-4xl font-bold text-purple-700 text-center'>Facility we Provide</h1>
-          <p className='text-center px-2 md:px-40 md:text-sm mt-4 md:mt-10'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis obcaecati molestias alias quasi iure ratione vel, nam voluptates tempore veniam, explicabo odit tenetur consectetur tempora sint aut quam, at laudantium!</p>
+          <p className='text-center px-2 md:px-40 md:text-sm mt-4 md:mt-10'> We provide affordable, safe, and comfortable stays near exam centers with all essential facilities for students. Our services include clean and hygienic rooms, 24/7 water supply, and a peaceful environment for focused preparation. With quick booking, time-saving check-ins, and reliable shelter, we ensure students experience a stress-free and comfortable stay.</p>
           <div className='flex flex-wrap w-full justify-center mt-5 md:mt-15'>
             <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
               <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="money-bag" />
@@ -241,7 +241,7 @@ export default function Home() {
             </div>
             <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
               <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/sand-clock-1.png" alt="sand-clock-1" />
-              <p className="text-xl font-bold text-white">Save Time</p>
+              <p className="text-xl font-bold text-white">Time Saving</p>
             </div>
             <div data-aos="zoom-in" data-aos-delay="300" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
               <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/bed.png" alt="bed" />

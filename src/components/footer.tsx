@@ -177,9 +177,9 @@ const Footer = () => {
         
         {/* Brand / About Section */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Dream Destinations</h2>
+          <h2 className="text-xl font-semibold mb-4">Student Stay</h2>
           <p className="text-gray-400">
-            Explore the most beautiful places around the world. Plan your dream getaway with us.
+            Find the comfort of your home at affordable prices. Explore our wide range of student accommodations tailored to your needs.
           </p>
         </div>
 

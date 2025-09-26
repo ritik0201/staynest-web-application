@@ -209,7 +209,7 @@ export default function NewRoom() {
             <input
               className="border-2 border-gray-400 rounded-md p-2 mt-2 w-full md:w-[265px]"
               type="text"
-              placeholder="e.g., ION Digital Zone"
+              placeholder="e.g., KP College"
               value={formData.nearByCentre}
               onChange={(e) =>
                 setFormData({ ...formData, nearByCentre: e.target.value })

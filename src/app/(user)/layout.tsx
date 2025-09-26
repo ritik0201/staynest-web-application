@@ -5,16 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboardIcon,
-  Share2Icon,
-  UploadIcon,
-  ImageIcon,
+  HomeIcon,
+  TicketCheckIcon,
+  SquareUserIcon,
 } from "lucide-react";
 
 const sidebarItems = [
   { href: "/", icon: LayoutDashboardIcon, label: "Home Page" },
-  { href: "/user-profile", icon: ImageIcon, label: "User Profile" },
-  { href: "/booked-room", icon: Share2Icon, label: "Booked Room" },
-  { href: "/new-room", icon: UploadIcon, label: "New Room" },
+  { href: "/user-profile", icon: SquareUserIcon, label: "User Profile" },
+  { href: "/booked-room", icon: TicketCheckIcon, label: "Booked Room" },
+  { href: "/new-room", icon: HomeIcon, label: "New Room" },
 ];
 
 export default function AppLayout({

@@ -187,13 +187,15 @@ export default function RoomCard() {
     </div>
 
     {/* Map Section */}
-    <div className="w-full max-w-6xl mt-10 bg-white rounded-xl shadow-lg p-4">
+    <div className="w-full h-[600px] max-w-6xl mt-10 bg-white rounded-xl shadow-lg p-4">
       <h2 className="text-xl font-semibold mb-4">Rooms on Map</h2>
+      <div className="w-full h-[500px] overflow-hidden">
       {roomLocations.length > 0 ? (
         <StudentStayMap locations={roomLocations} />
       ) : (
         <p className="text-gray-500">No locations to show on map.</p>
       )}
+      </div>
     </div>
   </div>
 );

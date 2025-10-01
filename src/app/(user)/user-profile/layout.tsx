@@ -11,10 +11,9 @@ import {
 } from "lucide-react";
 
 const sidebarItems = [
-  { href: "/", icon: LayoutDashboardIcon, label: "Home Page" },
   { href: "/user-profile", icon: SquareUserIcon, label: "User Profile" },
-  { href: "/booked-room", icon: TicketCheckIcon, label: "Booked Room" },
-  { href: "/new-room", icon: HomeIcon, label: "New Room" },
+  { href: "/user-profile/booked-room", label: "Booked Room" },
+
 ];
 
 export default function AppLayout({
@@ -41,7 +40,11 @@ export default function AppLayout({
                     : "hover:bg-purple-700"
                 }`}
               >
-                <item.icon className="w-6 h-6" />
+                {item.icon ? (
+                  <item.icon className="w-6 h-6" />
+                ) : (
+                  <span className="w-6 h-6"></span>
+                )}
                 <span className="hidden md:inline">{item.label}</span>
               </Link>
             </li>

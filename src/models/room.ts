@@ -15,12 +15,13 @@ export interface IRoom extends Document {
         pincode: number;
     };
     pricePerHour: number;
-    location: Location;
     currentlocation: Location;
     amenities: ('wifi' |'AC' | 'parking' | 'FAN')[];
     noOfPeople: number
     images: string[]
     userId: Types.ObjectId;
+    description?: string;
+    dist_btw_room_and_centre: number;
     isAvailable: boolean;
     createdAt: Date;
 }
@@ -86,6 +87,14 @@ const roomSchema = new Schema<IRoom>({
     isAvailable: {
         type: Boolean,
         default: true,
+    },
+    description: {
+        type: String,
+        required: false,
+    },
+    dist_btw_room_and_centre: {
+        type: Number,
+        required: true,
     },
     createdAt: {
         type: Date,

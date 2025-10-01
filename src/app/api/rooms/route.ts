@@ -64,7 +64,14 @@ export async function POST(req: Request) {
       noOfPeople: Number(formData.get("noOfPeople")),
       images,
       userId: formData.get("userId") as string,
+      description: formData.get("description") ? String(formData.get("description")) : "",
+      dist_btw_room_and_centre: Number(
+        formData.get("dist_btw_room_and_centre")
+      ),
     });
+
+    // console.log("desc" + room.description);
+    // console.log("dis" + room.dist_btw_room_and_centre);
 
 
     const now = new Date();

@@ -34,7 +34,7 @@ export default function StudentStayMap({ locations }: MapProps) {
     locations.length > 0 ? [locations[0].lat, locations[0].lng] : [0, 0];
 
   return (
-    <div className="w-full h-[500px]">
+    <div className="w-full h-full">
       <MapContainer center={center} zoom={12} style={{ height: "100%", width: "100%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

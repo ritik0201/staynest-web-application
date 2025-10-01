@@ -27,6 +27,7 @@ export default function NewRoom() {
     noOfPeople: "",
     pricePerHour: "",
     description: "",
+    dist_btw_room_and_centre: "",
     amenities: [] as string[],
   });
 
@@ -121,6 +122,7 @@ export default function NewRoom() {
           noOfPeople: "",
           pricePerHour: "",
           description: "",
+          dist_btw_room_and_centre: "",
           amenities: [],
         });
         setPreviews([null, null, null, null]);
@@ -192,25 +194,44 @@ export default function NewRoom() {
           </div>
 
           {/* Room roomOwner */}
-          <div className="w-full md:w-4/12 md:mt-8">
-            <h4 className="text-black text-1xl font-semibold mt-6 ">
-              Room owner full Name
-            </h4>
-            <input
-              className="border-2 border-gray-400 rounded-md p-2 mt-2 w-full md:w-[265px]"
-              type="text"
-              placeholder="e.g., Ram lal yadav"
-              value={formData.roomOwner}
-              onChange={(e) => setFormData({ ...formData, roomOwner: e.target.value })}
-            />
+          <div className="w-full md:w-5/12 md:mt-8 flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="w-full sm:w-1/2">
+                <h4 className="text-black text-1xl font-semibold">
+                  Room owner full Name
+                </h4>
+                <input
+                  className="border-2 border-gray-400 rounded-md p-2 mt-2 w-full"
+                  type="text"
+                  placeholder="e.g., Ram lal yadav"
+                  value={formData.roomOwner}
+                  required
+                  onChange={(e) => setFormData({ ...formData, roomOwner: e.target.value })}
+                />
+              </div>
+              <div className="w-full sm:w-1/2">
+                <h4 className="text-black text-1xl font-semibold">
+                  Distance (in meters)
+                </h4>
+                <input
+                  className="border-2 border-gray-400 rounded-md p-2 mt-2 w-full"
+                  type="text"
+                  value={formData.dist_btw_room_and_centre}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dist_btw_room_and_centre: e.target.value })
+                  }
+                />
+              </div>
+            </div>
             <h4 className="text-black text-1xl font-semibold mt-4 ">
               Nearby Centre
             </h4>
             <input
-              className="border-2 border-gray-400 rounded-md p-2 mt-2 w-full md:w-[265px]"
+              className="border-2 border-gray-400 rounded-md p-2 w-full"
               type="text"
-              placeholder="e.g., KP College"
+              placeholder="e.g., ION Digital Zone"
               value={formData.nearByCentre}
+              required
               onChange={(e) =>
                 setFormData({ ...formData, nearByCentre: e.target.value })
               }

@@ -1,67 +1,42 @@
- "use client";
+"use client";
 
-// import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
+import { User, Mail, Star } from "lucide-react";
 
-// const containerStyle = {
-//   width: "100%",
-//   height: "400px",
-// };
-
-// const center = {
-//   lat: 28.6139,
-//   lng: 77.2090,
-// };
-
-// export default function StudentStayMap() {
-//   return (
-//     <div className="pt-20">
-//       <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-//         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
-//           <Marker position={center} />
-//         </GoogleMap>
-//       </LoadScript>
-//     </div>
-//   );
-// }
-
-import React, { useState } from "react";
-
-const ImageGallery = () => {
-  const images = [
-    "https://picsum.photos/id/1018/600/400",
-    "https://picsum.photos/id/1025/600/400",
-    "https://picsum.photos/id/1035/600/400",
-    "https://picsum.photos/id/1043/600/400",
-  ];
-
-  const [selectedImage, setSelectedImage] = useState(images[0]);
-
+export default function ReviewCard() {
   return (
-    <div className="flex flex-col items-center p-6">
-      {/* Big Image */}
-      <div className="w-full max-w-3xl h-[400px] mb-6">
-        <img
-          src={selectedImage}
-          alt="Selected"
-          className="w-full h-full object-cover rounded-lg shadow-lg"
-        />
+    <div className="max-w-md mx-auto bg-gradient-to-br from-purple-100 via-white to-purple-50 rounded-2xl shadow-lg border border-purple-200 p-6">
+      {/* User Info */}
+      <div className="flex items-center gap-4">
+        <div className="p-3 rounded-full bg-purple-200">
+          <User className="w-8 h-8 text-purple-700" />
+        </div>
+        <div>
+          <p className="font-semibold text-lg text-purple-800">John Doe</p>
+          <p className="text-sm text-gray-500 flex items-center gap-1">
+            <Mail className="w-4 h-4 text-gray-400" /> johndoe@example.com
+          </p>
+        </div>
       </div>
 
-      {/* Small Images */}
-      <div className="flex gap-4">
-        {images.map((img, index) => (
-          <img
-            key={index}
-            src={img}
-            alt={`Thumbnail ${index + 1}`}
-            onClick={() => setSelectedImage(img)}
-            className={`w-24 h-16 object-cover rounded-md cursor-pointer border-2 
-              ${selectedImage === img ? "border-blue-500" : "border-transparent"}`}
+      {/* Rating */}
+      <div className="flex items-center gap-1 mt-3">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`w-5 h-5 ${
+              star <= 4 ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+            }`}
           />
         ))}
+        <span className="ml-2 text-sm font-medium text-gray-600">4.0/5</span>
       </div>
+
+      {/* Review Text */}
+      <p className="text-gray-700 text-sm leading-relaxed mt-3">
+        “The service was excellent, the support team was super helpful and
+        quick to respond. Definitely recommend it to others looking for
+        quality and reliability.”
+      </p>
     </div>
   );
-};
-
-export default ImageGallery;
+}

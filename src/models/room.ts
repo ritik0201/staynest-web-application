@@ -6,6 +6,7 @@ interface Location {
 }
 
 export interface IRoom extends Document {
+    rating: number;
     roomOwner: string;
     nearByCentre: string;
     address: {
@@ -23,7 +24,7 @@ export interface IRoom extends Document {
     description?: string;
     dist_btw_room_and_centre: number;
     isAvailable: boolean;
-    createdAt: Date;
+    reviews: Types.ObjectId[];
 }
 
 const roomSchema = new Schema<IRoom>({
@@ -88,6 +89,10 @@ const roomSchema = new Schema<IRoom>({
         type: Boolean,
         default: true,
     },
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Review'
+    }],
     description: {
         type: String,
         required: false,
@@ -95,11 +100,7 @@ const roomSchema = new Schema<IRoom>({
     dist_btw_room_and_centre: {
         type: Number,
         required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+    }
+}, { timestamps: true });
 
 export default mongoose.models.Room || mongoose.model<IRoom>('Room', roomSchema);

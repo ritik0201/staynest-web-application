@@ -1,19 +1,28 @@
-import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Room from "@/models/room";
+import Review from "@/models/review"; 
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
+  request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
+  await dbConnect();
+  Review.findOne(); // Ensure Review model is registered
+
   try {
     const { id } = await context.params;
-    await dbConnect();
 
-    const room = await Room.findById(id).populate(
-      "userId",
-      "username email mobilenumber"
-    );
+    const room = await Room.findById(id)
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "userId",
+          model: "User",
+          select: "username email", // only required fields
+        },
+      })
+      .populate("userId", "username email mobilenumber"); // Room owner details
 
     if (!room) {
       return NextResponse.json(
@@ -22,9 +31,9 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ success: true, room }, { status: 200 });
+    return NextResponse.json({ success: true, room });
   } catch (error) {
-    console.error("Error fetching room:", error);
+    console.error("Failed to fetch room:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch room" },
       { status: 500 }

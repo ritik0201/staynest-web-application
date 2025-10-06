@@ -1,17 +1,12 @@
 'use client'
 import { FlipWords } from "@/components/ui/flip-words";
 import Footer from "@/components/footer";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-  const centerQuery = searchParams.get("center")?.toLowerCase() || "";
-  const cityQuery = searchParams.get("city")?.toLowerCase() || "";
-  const guestsQuery = Number(searchParams.get("guests") || 0);
   const [center, setCenter] = useState("");
   const [city, setCity] = useState("");
   const [guests, setGuests] = useState("");
@@ -34,7 +29,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="relative overflow-hidden">
       <div className="relative bg-[url('/image/background-image.jpg')] bg-cover bg-center h-screen text-white">
 
         <div className="flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-20 ">
@@ -55,8 +50,8 @@ export default function Home() {
           </div>
 
           {/* Search Section */}
-          <div data-aos="fade-up" data-aos-delay="1200" className="w-full max-w-3xl bg-white/70 backdrop-blur-md rounded-xl p-4 shadow-lg">
-            <div className="flex flex-col md:flex-row gap-4 w-full">
+          <div data-aos="fade-up" data-aos-delay="1200" className="w-full max-w-3xl bg-white/70 dark:bg-black/50 backdrop-blur-md rounded-xl p-4 shadow-lg">
+           <div className="flex flex-col md:flex-row gap-4 w-full">
 
               <input
                 type="text"
@@ -64,6 +59,7 @@ export default function Home() {
                 className="w-full p-3 rounded-md border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={center}
                 onChange={(e) => setCenter(e.target.value)}
+                
               />
 
               <input
@@ -82,13 +78,14 @@ export default function Home() {
                 onChange={(e) => setGuests(e.target.value)}
               />
 
-              <button
-                className="w-full md:w-auto bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 rounded-md transition"
-                onClick={handleSearch}
-              >
-                Search
-              </button>
-
+              <div className="relative rounded-md">
+                <button
+                  className="w-full md:w-auto bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 rounded-md transition"
+                  onClick={handleSearch}
+                >
+                  Search
+                </button>
+              </div>
             </div>
           </div>
 
@@ -123,7 +120,7 @@ export default function Home() {
         >
           {/* Left side image */}
           <div className="w-full md:w-5/12 flex justify-center items-center">
-            <img src="/image/home1.png" alt="" />
+            <Image src="/image/home1.png" alt="Illustration of a person studying" width={500} height={500} />
           </div>
 
           {/* Right side accordion */}
@@ -235,24 +232,24 @@ export default function Home() {
           <p className='text-center px-2 md:px-40 md:text-sm mt-4 md:mt-10'> We provide affordable, safe, and comfortable stays near exam centers with all essential facilities for students. Our services include clean and hygienic rooms, 24/7 water supply, and a peaceful environment for focused preparation. With quick booking, time-saving check-ins, and reliable shelter, we ensure students experience a stress-free and comfortable stay.</p>
           <div className='flex flex-wrap w-full justify-center mt-5 md:mt-15'>
             <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
-              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="money-bag" />
-              <p className="text-xl font-bold text-white">Affordable Price</p>
+              <Image width="94" height="94" src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="Affordable Price Icon" />
+              <p className="text-sm md:text-xl font-semibold md:font-bold text-white">Affordable Price</p>
             </div>
             <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
-              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/sand-clock-1.png" alt="sand-clock-1" />
-              <p className="text-xl font-bold text-white">Time Saving</p>
+              <Image width="94" height="94" src="https://img.icons8.com/3d-fluency/94/sand-clock-1.png" alt="Time Saving Icon" />
+              <p className="text-sm md:text-xl font-semibold md:font-bold text-white">Time Saving</p>
             </div>
             <div data-aos="zoom-in" data-aos-delay="300" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
-              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/bed.png" alt="bed" />
-              <p className="text-xl font-bold text-white">Comfortable Stay</p>
+              <Image width="94" height="94" src="https://img.icons8.com/3d-fluency/94/bed.png" alt="Comfortable Stay Icon" />
+              <p className="text-sm md:text-xl font-semibold md:font-bold text-white">Comfortable Stay</p>
             </div>
             <div data-aos="zoom-in" data-aos-delay="600" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
-              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/shower.png" alt="shower" />
-              <p className="text-xl font-bold text-white">Shower</p>
+              <Image width="94" height="94" src="https://img.icons8.com/3d-fluency/94/shower.png" alt="Shower Icon" />
+              <p className="text-sm md:text-xl font-semibold md:font-bold text-white">Shower</p>
             </div>
             <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
-              <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/real-estate.png" alt="real-estate" />
-              <p className="text-xl font-bold text-white">Shelter</p>
+              <Image width="94" height="94" src="https://img.icons8.com/3d-fluency/94/real-estate.png" alt="Shelter Icon" />
+              <p className="text-sm md:text-xl font-semibold md:font-bold text-white">Shelter</p>
             </div>
 
           </div>

@@ -7,7 +7,7 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
-      mobile?: string | null; // Added mobile field
+      mobile: string;
     };
   }
 
@@ -25,7 +25,7 @@ declare module "next-auth/jwt" {
       id: string;
       name?: string | null;
       email?: string | null;
-      mobile?: string | null; // Added mobile field
+      mobile: string;
     };
   }
 }

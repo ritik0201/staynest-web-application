@@ -157,20 +157,6 @@ export default function Navbar() {
             >
               User profile
             </a>
-            <a
-              href="/booked-room"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
-            >
-              Booked room
-            </a>
-            <a
-              href="/new-room"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
-            >
-              Add room
-            </a>
 
             {!session ? (
               <button

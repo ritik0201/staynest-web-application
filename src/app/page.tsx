@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image";
 import { FlipWords } from "@/components/ui/flip-words";
 import Footer from "@/components/footer";
 import { useRouter } from "next/navigation";

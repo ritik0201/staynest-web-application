@@ -1,37 +1,28 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+"use client";
+
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Providers } from "./provider";
 import { Toaster } from "@/components/ui/sonner";
+import SpeedDialMenu from "@/components/speedDialMenu";
 import AOSProvider from "@/components/AOSProvider";
-import SocialMediaSpeedDial from "@/components/speedDialMenu";
 import AppThemeProvider from "@/components/ThemeProvider";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Student Stay",
-  description: "Find your perfect student accommodation",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <AppThemeProvider>
-        <Providers>
-          <Navbar />
-          <AOSProvider />
-          {children}
-          <SocialMediaSpeedDial />
-          <Toaster />
-        </Providers>
-        </AppThemeProvider>
+    <html lang="en" className="dark">
+      <body>
+        <div className="relative w-full min-h-screen">
+          <AppThemeProvider>
+          <Providers>
+            <Navbar />
+            <AOSProvider /> 
+            {children}
+            <SpeedDialMenu />
+            <Toaster richColors theme="dark"/>
+          </Providers>
+          </AppThemeProvider>
+        </div>
       </body>
     </html>
   );

@@ -44,7 +44,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
 
                 <div>
                     <input
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600"
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600 text-purple-700 placeholder:text-purple-500"
                         placeholder="Username"
                         minLength={6}
                         maxLength={10}
@@ -55,7 +55,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
 
                 <div>
                     <input
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600"
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600 text-purple-700 placeholder:text-purple-500"
                         placeholder="Email"
                         type="email"
                         onChange={(e) => setForm({ ...form, email: e.target.value })} 
@@ -66,7 +66,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
 
                 <div>
                     <input
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600"
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring border-purple-300 focus:ring-purple-600 text-purple-700 placeholder:text-purple-500"
                         placeholder="Mobile Number"
                         type="tel"
                         onChange={(e) => setForm({ ...form, mobilenumber: e.target.value })}

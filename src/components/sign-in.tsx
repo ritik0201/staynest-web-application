@@ -1,5 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -35,7 +36,7 @@ export default function Login({ handleClose }: { handleClose: () => void }) {
         
         {/* Logo and Company Name (Top-Left) */}
         <div className="absolute top-4 left-4 flex items-center gap-2 ">
-          <img src="/image/logo.png" className="w-8 h-8" alt="logo" />
+          <Image src="/image/logo.png" className="w-8 h-8" alt="logo" width={32} height={32} />
           <p className="text-black text-lg font-semibold">StayNest</p>
         </div>
 
@@ -47,7 +48,7 @@ export default function Login({ handleClose }: { handleClose: () => void }) {
         <input
           name="email"
           placeholder="Email or Username"
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 border-purple-300 focus:ring-purple-600"
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 border-purple-300 focus:ring-purple-600 text-purple-600"
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
 
@@ -56,7 +57,7 @@ export default function Login({ handleClose }: { handleClose: () => void }) {
           name="password"
           autoComplete="off"
           placeholder="Password"
-          className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+          className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-purple-600"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
 

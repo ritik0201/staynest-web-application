@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
-import Booking from '@/schema/booking';
+import Booking from '@/models/booking';
 import { getToken } from 'next-auth/jwt';
 
 export async function GET(

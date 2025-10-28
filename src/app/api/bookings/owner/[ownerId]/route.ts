@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
-import Booking from '@/schema/booking';
-import Room from '@/schema/room';
+import Booking from '@/models/booking';
+import Room from '@/models/room';
 import { getToken } from 'next-auth/jwt';
 
 export async function GET(

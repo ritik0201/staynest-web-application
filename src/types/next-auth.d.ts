@@ -1,31 +1,23 @@
-import NextAuth from "next-auth";
+import "next-auth";
+import "next-auth/jwt";
+import { DefaultSession } from "next-auth";
 
+// Augment the default types to include our custom fields
 declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
       mobile: string;
-    };
+    } & DefaultSession["user"];
   }
 
   interface User {
-    id: string;
-    name?: string | null;
-    email?: string | null;
-    mobile?: string | null; // Added mobile field
+    mobile?: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    user: {
-      id: string;
-      name?: string | null;
-      email?: string | null;
-      mobile: string;
-    };
+    user?: Session["user"];
   }
 }

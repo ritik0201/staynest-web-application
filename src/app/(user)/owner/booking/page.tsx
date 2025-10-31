@@ -3,8 +3,8 @@
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Calendar, Clock, CheckCircle, IndianRupeeIcon, User, Hash, Home, BookUser } from 'lucide-react';
-import { IBooking } from "@/schema/booking";
+import { Calendar, Clock, CheckCircle, IndianRupeeIcon, User, Hash, Home } from 'lucide-react';
+import { IBooking } from "@/models/booking";
 
 interface IRoomPopulatedBooking extends Omit<IBooking, 'roomId'> {
   roomId: {

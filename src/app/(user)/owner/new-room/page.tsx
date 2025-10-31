@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import RoomRoundedIcon from '@mui/icons-material/RoomRounded';
@@ -10,6 +11,19 @@ import { toast } from "sonner";
 
 export default function NewRoom() {
   const { data: session } = useSession();
+  type FormDataState = {
+    roomOwner: string;
+    nearByCentre: string;
+    street: string;
+    city: string;
+    state: string;
+    pincode: string;
+    noOfPeople: string;
+    pricePerHour: string;
+    description: string;
+    dist_btw_room_and_centre: string;
+    amenities: string[];
+  };
   const [previews, setPreviews] = useState<(string | null)[]>([null, null, null, null]);
   const [images, setImages] = useState<(File | null)[]>([null, null, null, null]);
 
@@ -17,7 +31,7 @@ export default function NewRoom() {
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingRoom, setLoadingRoom] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataState>({
     roomOwner: "",
     nearByCentre: "",
     street: "",
@@ -70,6 +84,7 @@ export default function NewRoom() {
       (error) => {
         toast.error("Failed to get location ");
         setLoadingLocation(false);
+        console.error(error);
       }
     );
   };
@@ -89,11 +104,12 @@ export default function NewRoom() {
       images.forEach((img) => {
         if (img) data.append("images", img);
       });
-      Object.keys(formData).forEach((key) => {
+      (Object.keys(formData) as Array<keyof FormDataState>).forEach((key) => {
         if (key === "amenities") {
           data.append("amenities", JSON.stringify(formData.amenities));
         } else {
-          data.append(key, (formData as any)[key]);
+          // All other values are strings, so this is safe.
+          data.append(key, formData[key] as string);
         }
       });
       data.append("userId", session.user.id);
@@ -168,10 +184,11 @@ export default function NewRoom() {
                     className="w-28 aspect-square border-2 border-dashed border-gray-400 rounded-xl flex items-center justify-center cursor-pointer overflow-hidden"
                   >
                     {previews[i] ? (
-                      <img
+                      <Image
                         src={previews[i] ?? ""}
                         alt={`Preview ${i + 1}`}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     ) : (
                       <span className="text-gray-500 text-sm text-center">

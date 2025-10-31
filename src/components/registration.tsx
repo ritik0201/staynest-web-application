@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "sonner";
+import Image from 'next/image';
 
 export default function RegisterPage({ handleClose }: { handleClose: () => void }) {
     const [form, setForm] = useState({ username: '', email: '', mobilenumber: '' });
@@ -35,7 +36,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
             <div className="w-full max-w-sm bg-[#f5f5f5] px-8 pt-8 pb-4 space-y-4 rounded-xl">
 
                 <div className="absolute top-4 left-4 flex items-center gap-2 ">
-                    <img src="/image/logo.png" className="w-8 h-8" alt="logo" />
+                    <Image src="/image/logo.png" width={32} height={32} alt="logo" />
                     <p className="text-black text-lg font-semibold">StayNest</p>
                 </div>
 

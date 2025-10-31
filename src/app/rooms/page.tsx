@@ -13,7 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from 'react'
 import { FanIcon, AirVentIcon, WifiIcon } from "lucide-react";
-import { IRoom } from "@/schema/room";
+import { IRoom } from "@/models/room";
 
 
 const StudentStayMap = dynamic(() => import("@/components/StudentStayMap"), {

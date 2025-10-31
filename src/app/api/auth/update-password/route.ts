@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { NewPasswordSchema } from "@/schema/updatePassSchema";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "../../../../lib/auth";
 
 export async function POST(req: NextRequest) {
   try {

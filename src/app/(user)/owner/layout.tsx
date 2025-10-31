@@ -4,15 +4,15 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboardIcon,
   HomeIcon,
-  TicketCheckIcon,
-  SquareUserIcon,
+  BookUserIcon,
 } from "lucide-react";
 
 const sidebarItems = [
   { href: "/owner", icon: HomeIcon, label: "Owner" },
   { href: "/owner/new-room", label: "New room" },
+  { href: "/owner/booking", icon: BookUserIcon, label: "Booking" },
+
 
 ];
 

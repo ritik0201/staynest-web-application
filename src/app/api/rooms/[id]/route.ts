@@ -40,3 +40,43 @@ export async function GET(
     );
   }
 }
+
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  await dbConnect();
+
+  try {
+    const { id } = await context.params;
+    const { isAvailable } = await request.json();
+
+    if (typeof isAvailable !== "boolean") {
+      return NextResponse.json(
+        { success: false, message: "Invalid 'isAvailable' status provided." },
+        { status: 400 }
+      );
+    }
+
+    const updatedRoom = await Room.findByIdAndUpdate(
+      id,
+      { isAvailable },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedRoom) {
+      return NextResponse.json(
+        { success: false, message: "Room not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, room: updatedRoom });
+  } catch (error) {
+    console.error("Failed to update room status:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to update room status" },
+      { status: 500 }
+    );
+  }
+}

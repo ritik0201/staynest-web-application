@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import RegisterModal from "@/components/modal";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 import { User, Settings, LogOut } from "lucide-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -27,30 +28,30 @@ export default function Navbar() {
       <div className="flex justify-between items-center h-14 px-4 sm:px-6 lg:px-8">
         {/* Left: Company logo/name */}
         <Link href="/" className="flex items-center gap-2">
-          <img className="w-9 h-9" src="/image/logo.png" alt="Logo" />
+          <Image src="/image/logo.png" alt="Logo" width={36} height={36} />
           <div className="text-2xl font-bold text-white">StayNest</div>
         </Link>
 
         {/* Center: Desktop nav links */}
         <div className="hidden md:flex space-x-4 text-white">
-          <a
+          <Link
             href="/rooms"
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
             Rooms
-          </a>
-          <a
+          </Link>
+          <Link
             href="#contact"
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
             Contact
-          </a>
-          <a
-            href="/user-profile"
+          </Link>
+          <Link
+            href="/dashboard"
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
             Dashboard
-          </a>
+          </Link>
         </div>
 
         {/* Right: Desktop buttons */}
@@ -85,7 +86,7 @@ export default function Navbar() {
                   <Menu {...bindMenu(popupState)}>
                     <MenuItem onClick={popupState.close}>
                       <Link
-                        href="/user-profile"
+                        href="/dashboard"
                         className="w-full flex items-center gap-4 text-gray-800 px-8 py-2"
                       >
                         <User size={22} /> {session.user?.name}
@@ -136,27 +137,27 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white/30 backdrop-blur-md overflow-hidden">
           <div className="flex flex-col px-4 py-3 space-y-1 text-white">
-            <a
+            <Link
               href="/rooms"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
               Rooms
-            </a>
-            <a
+            </Link>
+            <Link
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
               Contact
-            </a>
-            <a
-              href="/user-profile"
+            </Link>
+            <Link
+              href="/dashoard"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
-              User profile
-            </a>
+              Dashoard
+            </Link>
 
             {!session ? (
               <button

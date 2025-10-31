@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+console.warn(" MONGODB_URI not defined — skipping DB connection (likely build phase).");
+const MONGODB_URI = 'mongodb+srv://ritik123:ritik1234@cluster0.ekoze50.mongodb.net/';
 
 if (!MONGODB_URI) {
-  console.warn(" MONGODB_URI not defined — skipping DB connection (likely build phase).");
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 

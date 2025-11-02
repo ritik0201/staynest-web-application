@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = 'mongodb+srv://ritik123:ritik1234@cluster0.ekoze50.mongodb.net/';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   console.warn("MONGODB_URI not defined — skipping DB connection (likely build phase).");
@@ -10,7 +10,7 @@ if (!MONGODB_URI) {
 async function dbConnect(): Promise<typeof mongoose> {
   try {
     if (!MONGODB_URI) {
-      throw new Error('Please define the MONGODB_URI environment variable');
+      throw new Error('MONGODB_URI is not defined in the environment variables.');
     }
     const connection = await mongoose.connect(MONGODB_URI, {
       dbName: 'studentStayDB',

@@ -1,34 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Room from "@/models/room";
-import { getToken } from "next-auth/jwt";
 
-export async function GET(
-  req: NextRequest,
-  context: { params: Promise<{ ownerId: string }> }
-) {
-  const token = await getToken({ req });
-  if (!token) {
-    return NextResponse.json(
-      { success: false, message: "Unauthorized" },
-      { status: 401 }
-    );
-  }
-
+export async function GET(req: NextRequest, context: { params: Promise<{ ownerId: string }> }) {
   try {
+    const { ownerId } = await context.params; // ✅ await params
     await dbConnect();
-    const { ownerId } = await context.params;
+
     const rooms = await Room.find({ userId: ownerId }).sort({ createdAt: -1 });
 
+    if (!rooms || rooms.length === 0) {
+      return NextResponse.json(
+        { success: false, message: "Rooms not found for this owner" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json({ success: true, rooms });
-  } catch (error: unknown) {
+  } catch (error) {
+    console.error("Error fetching owner's rooms:", error);
     return NextResponse.json(
-      { 
-        success: false, 
-        message: typeof error === "object" && error !== null && "message" in error 
-          ? (error as { message: string }).message 
-          : "An unknown error occurred" 
-      },
+      { success: false, message: "Failed to fetch rooms" },
       { status: 500 }
     );
   }

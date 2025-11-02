@@ -1,98 +1,113 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Calendar, Clock, CheckCircle, IndianRupeeIcon, User, Hash, Home } from 'lucide-react';
-import { IBooking } from "@/models/booking";
+import { toast } from "sonner";
+import { BookUser, Utensils, Calendar, Clock } from 'lucide-react';
 
-interface IRoomPopulatedBooking extends Omit<IBooking, 'roomId'> {
-  roomId: {
-    _id: string;
-    nearByCentre: string;
-  };
+interface IBooking {
+  _id: string;
+  roomId: { nearByCentre: string };
+  userId: { username: string };
+  fullName: string;
+  startTime: string;
+  endTime: string;
+  totalCost: number;
+  foods?: { name: string; price: number }[];
+  status: 'booked' | 'completed';
 }
 
 export default function OwnerBookingsPage() {
-  const { data: session, status } = useSession();
-  const [bookings, setBookings] = useState<IRoomPopulatedBooking[]>([]);
+  const { data: session } = useSession();
+  const [bookings, setBookings] = useState<IBooking[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBookings = async () => {
-      if (status === 'authenticated' && session?.user?.id) {
+      if (session?.user?.id) {
         try {
-          setLoading(true);
           const res = await fetch(`/api/bookings/owner/${session.user.id}`);
           const data = await res.json();
           if (data.success) {
             setBookings(data.bookings);
           } else {
-            console.error("Failed to fetch bookings:", data.message);
+            toast.error("Failed to fetch bookings.");
           }
         } catch (error) {
-          console.error("Error fetching owner bookings:", error);
+          console.error("Error fetching bookings:", error);
+          toast.error("An error occurred while fetching bookings.");
         } finally {
           setLoading(false);
         }
       }
     };
 
-    fetchBookings();
-  }, [session, status]);
+    if (session) {
+      fetchBookings();
+    }
+  }, [session]);
 
-  if (status === 'loading' || loading) {
-    return <div className="flex justify-center items-center h-screen"><p>Loading bookings...</p></div>;
-  }
-
-  if (!session) {
-    return <div className="flex justify-center items-center h-screen"><p>Please log in to view this page.</p></div>;
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen">Loading bookings...</div>;
   }
 
   return (
-    <div className="container mx-auto p-4 pt-24 sm:p-6 lg:p-8 lg:pt-24 bg-gray-900 text-foreground min-h-screen">
-      <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Your Room Bookings</h1>
-      <p className="text-muted-foreground mb-6">You have a total of <span className="font-bold text-primary">{bookings.length}</span> booking(s) for your rooms.</p>
+    <div className="container mx-auto p-4 sm:p-6 pt-20 min-h-full">
+      <div className="flex items-center mb-8">
+        <BookUser className="w-8 h-8 mr-3 text-primary" />
+        <h1 className="text-2xl md:text-4xl font-bold text-foreground">My Room Bookings</h1>
+      </div>
 
       {bookings.length === 0 ? (
-        <div className="text-center py-12 bg-gray-800 rounded-lg">
-          <p className="text-muted-foreground">You don&apos;t have any bookings for your rooms yet.</p>
-          <Link href="/owner" className="mt-4 inline-block px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition">
-            Go to Owner Dashboard
-          </Link>
+        <div className="text-center py-20 bg-gray-800 rounded-xl border border-dashed border-border">
+          <BookUser size={48} className="mx-auto text-muted-foreground" />
+          <p className="text-xl text-muted-foreground mt-4">You have no bookings for your rooms yet.</p>
         </div>
       ) : (
         <div className="space-y-6">
           {bookings.map((booking) => (
-            <div key={String(booking._id)} className="bg-gray-800 rounded-2xl shadow-md p-5 border border-border hover:shadow-lg transition-shadow duration-300">
-              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4">
-                <h2 className="text-xl font-bold text-foreground truncate" title={booking.roomId.nearByCentre}>
-                  {booking.roomId.nearByCentre}
-                </h2>
-                {booking.status === 'completed' ? (
-                  <span className="inline-flex mt-2 md:mt-0 items-center text-xs font-semibold bg-blue-600/20 text-blue-400 px-2.5 py-1 rounded-full">
-                    <CheckCircle className="w-4 h-4 mr-1.5" /> Completed
-                  </span>
-                ) : (
-                  <span className="inline-flex mt-2 md:mt-0 items-center text-xs font-semibold bg-green-600/20 text-green-400 px-2.5 py-1 rounded-full">
-                    <CheckCircle className="w-4 h-4 mr-1.5" /> Booked
-                  </span>
+            <div key={booking._id} className="bg-gray-800 rounded-xl shadow-md p-6 border border-border">
+              <div className="flex flex-col md:flex-row justify-between md:items-center border-b border-gray-700 pb-4 mb-4">
+                <div>
+                  <h3 className="text-xl font-bold text-primary">{booking.roomId.nearByCentre}</h3>
+                  <p className="text-sm text-muted-foreground">Booked by: {booking.fullName} ({booking.userId.username})</p>
+                </div>
+                <div className="text-right mt-2 md:mt-0">
+                  <p className="text-lg font-semibold text-green-500">Total: ₹{booking.totalCost.toFixed(2)}</p>
+                  <p className={`text-xs font-semibold uppercase tracking-wider px-2 py-1 rounded-full inline-block mt-1 ${booking.status === 'booked' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                    {booking.status}
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <Calendar size={16} className="text-primary" />
+                    <span><strong>Start:</strong> {new Date(booking.startTime).toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Clock size={16} className="text-primary" />
+                    <span><strong>End:</strong> {new Date(booking.endTime).toLocaleString()}</span>
+                  </div>
+                </div>
+
+                {booking.foods && booking.foods.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+                      <Utensils size={16} />
+                      <span>Food Order</span>
+                    </div>
+                    <ul className="space-y-1 text-xs text-muted-foreground">
+                      {booking.foods.map((food, index) => (
+                        <li key={index} className="flex justify-between">
+                          <span>{food.name}</span>
+                          <span>₹{food.price}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-                <div className="flex items-center text-muted-foreground"><User className="w-4 h-4 mr-2 text-primary" /> <strong>Booked by:</strong><span className="ml-2">{booking.fullName}</span></div>
-                <div className="flex items-center text-muted-foreground"><Hash className="w-4 h-4 mr-2 text-primary" /> <strong>Roll No:</strong><span className="ml-2">{booking.enrollmentNumber}</span></div>
-                <div className="flex items-center text-muted-foreground col-span-1 sm:col-span-2 lg:col-span-1"><Home className="w-4 h-4 mr-2 text-primary" /> <strong>Address:</strong><span className="ml-2">{booking.address}</span></div>
-              </div>
-
-              <div className="border-t my-4"></div>
-
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center" title={`From: ${new Date(booking.startTime).toLocaleString()}`}><Calendar className="w-4 h-4 mr-2" /> {new Date(booking.startTime).toLocaleString()}</div>
-                <div className="flex items-center" title={`To: ${new Date(booking.endTime).toLocaleString()}`}><Calendar className="w-4 h-4 mr-2" /> {new Date(booking.endTime).toLocaleString()}</div>
-                <div className="flex items-center"><Clock className="w-4 h-4 mr-2" /> {booking.totalHours.toFixed(1)} hrs</div>
-                <div className="flex items-center font-semibold text-primary"><IndianRupeeIcon className="w-4 h-4 mr-1" /> {booking.totalCost.toFixed(2)}</div>
               </div>
             </div>
           ))}

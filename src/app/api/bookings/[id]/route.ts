@@ -56,6 +56,15 @@ export async function PUT(req: Request, context: { params: Promise<IParams> }) {
       };
       const owner = room.userId;
 
+      // Generate HTML for food items list
+      const foodItemsHtml = populatedBooking.foods && populatedBooking.foods.length > 0
+        ? `<h3>Ordered Food Items:</h3>
+           <ul>
+             ${populatedBooking.foods.map((food: { name: string; price: number }) => `<li>${food.name} - ₹${food.price}</li>`).join('')}
+           </ul>`
+        : '<p>No food items were ordered.</p>';
+
+
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -70,7 +79,11 @@ export async function PUT(req: Request, context: { params: Promise<IParams> }) {
           from: process.env.EMAIL_USER,
           to: user.email,
           subject: `Booking Confirmed for Your room near by ${room.nearByCentre} exam center! ✅`,
-          html: `<h1>Hi ${user.username},</h1><p>Your booking for the room "<b>${room.nearByCentre}</b>" is confirmed.</p><p><b>Booking ID:</b> ${populatedBooking._id}</p><p>Thank you!</p>\n ${dateTime}`,
+          html: `<h1>Hi ${user.username},</h1>
+                 <p>Your booking for the room "<b>${room.nearByCentre}</b>" is confirmed.</p>
+                 <p><b>Booking ID:</b> ${populatedBooking._id}</p>
+                 ${foodItemsHtml}
+                 <p>Thank you!</p>\n ${dateTime}`,
         }).catch(e => console.error("Failed to send confirmation email to user:", e));
       }
 
@@ -80,7 +93,10 @@ export async function PUT(req: Request, context: { params: Promise<IParams> }) {
           from: process.env.EMAIL_USER,
           to: owner.email,
           subject: `New Booking for Your Room which near by: ${room.nearByCentre} exam center🏡`,
-          html: `<h1>Hi ${owner.username},</h1><p>You have a new booking for your room "<b>${room.nearByCentre}</b>" from a user named <b>${populatedBooking.fullName}</b>.</p>\n ${dateTime}`,
+          html: `<h1>Hi ${owner.username},</h1>
+                 <p>You have a new booking for your room "<b>${room.nearByCentre}</b>" from a user named <b>${populatedBooking.fullName}</b>.</p>
+                 ${foodItemsHtml}
+                 \n ${dateTime}`,
         }).catch(e => console.error("Failed to send notification email to owner:", e));
       }
     }

@@ -5,6 +5,11 @@ interface Location {
     longitude: number;
 }
 
+interface Food {
+    name: string;
+    price: number;
+}
+
 export interface IRoom extends Document {
     rating: number;
     roomOwner: string;
@@ -25,7 +30,13 @@ export interface IRoom extends Document {
     dist_btw_room_and_centre: number;
     isAvailable: boolean;
     reviews: Types.ObjectId[];
+    foods?: Food[];
 }
+
+const foodSchema = new Schema<Food>({
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+});
 
 const roomSchema = new Schema<IRoom>({
     roomOwner: {
@@ -78,7 +89,8 @@ const roomSchema = new Schema<IRoom>({
     },
     images: {
         type: [String],
-        required: true,
+        required: false,
+        default: [],
     },
     userId: {
         type: Schema.Types.ObjectId,
@@ -100,7 +112,11 @@ const roomSchema = new Schema<IRoom>({
     dist_btw_room_and_centre: {
         type: Number,
         required: true,
-    }
+    },
+    foods: {
+        type: [foodSchema],
+        default: [],
+    },
 }, { timestamps: true });
 
 export default mongoose.models.Room || mongoose.model<IRoom>('Room', roomSchema);

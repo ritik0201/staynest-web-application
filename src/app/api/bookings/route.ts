@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import booking from "@/models/booking";
+import Booking from "@/models/booking";
 import dbConnect from "@/lib/dbConnect";
 
 export async function POST(req: Request) {
     await dbConnect();
     try {
         const reqBody = await req.json()
-        const { userId, roomId, fullName, noOfPeople, enrollmentNumber, address ,startTime, endTime, totalHours, totalCost} = reqBody;
+        const { userId, roomId, fullName, noOfPeople, enrollmentNumber, address ,startTime, endTime, totalHours, totalCost, foods} = reqBody;
 
         if(!userId || !roomId || !startTime || !endTime  || !totalHours || !totalCost || !fullName || !noOfPeople || !enrollmentNumber || !address){
              return NextResponse.json(
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         }
         
         //Create the booking
-        const newBooking = new booking({
+        const newBooking = new Booking({
             userId,
             roomId,
             startTime,
@@ -27,6 +27,7 @@ export async function POST(req: Request) {
             noOfPeople,
             enrollmentNumber,
             address,
+            foods: foods || [], // Ensure foods is an array, even if undefined
             
         })
         

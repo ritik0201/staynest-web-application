@@ -68,6 +68,9 @@ export async function POST(req: Request) {
       dist_btw_room_and_centre: Number(
         formData.get("dist_btw_room_and_centre")
       ),
+      foods: formData.get("foods")
+        ? JSON.parse(formData.get("foods") as string)
+        : [],
     });
 
     // console.log("desc" + room.description);
@@ -116,9 +119,29 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     await dbConnect();
-    const rooms = await Room.find()
-      .sort({ createdAt: -1 })
-      .populate("userId", "username email");
+    const rooms = await Room.aggregate([
+      {
+        $lookup: {
+          from: "reviews", // This should be the exact name of your reviews collection in MongoDB
+          localField: "_id",
+          foreignField: "roomId",
+          as: "reviewDetails",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $ifNull: [{ $avg: "$reviewDetails.rating" }, 0] },
+        },
+      },
+      {
+        $project: {
+          reviewDetails: 0, // Exclude the full review details from the final output
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+    ]);
     return NextResponse.json({ success: true, rooms }, { status: 200 });
   } catch (error) {
     console.error("Error fetching rooms:", error);

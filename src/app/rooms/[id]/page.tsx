@@ -41,6 +41,7 @@ interface IBookingFormData {
   noOfPeople: string;
   enrollmentNumber: string;
   address: string;
+  selectedFoods: { name: string; price: number }[];
 }
 
 const StudentStayMap = dynamic(() => import("@/components/StudentStayMap"), {
@@ -91,8 +92,13 @@ export default function RoomDetailPage() {
     noOfPeople: '',
     enrollmentNumber: '',
     address: '',
+    selectedFoods: [],
   });
 
+  // Get current time in YYYY-MM-DDTHH:MM format for min attribute
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  const minBookingTime = now.toISOString().slice(0, 16);
   useEffect(() => {
     const fetchRoom = async () => {
       if (!id) return;
@@ -117,6 +123,26 @@ export default function RoomDetailPage() {
 
     fetchRoom();
   }, [id]);
+
+  // Recalculate total cost when times or food selection change
+  useEffect(() => {
+    if (bookingData.startTime && bookingData.endTime && room) {
+      const start = new Date(bookingData.startTime);
+      const end = new Date(bookingData.endTime);
+      const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+
+      if (hours > 1) {
+        const roomCost = hours * room.pricePerHour;
+        const foodCost = bookingData.selectedFoods.reduce((total, food) => total + food.price, 0);
+        setBookingData(prev => ({ ...prev, totalCost: roomCost + foodCost }));
+      } else {
+        // Reset cost if duration is invalid
+        setBookingData(prev => ({ ...prev, totalCost: 0 }));
+      }
+    } else {
+      setBookingData(prev => ({ ...prev, totalCost: 0 }));
+    }
+  }, [bookingData.startTime, bookingData.endTime, bookingData.selectedFoods, room]);
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,6 +187,18 @@ export default function RoomDetailPage() {
 
   const [bookingId, setBookingId] = useState<string | null>(null);
 
+  const handleFoodSelection = (food: { name: string; price: number }, isChecked: boolean) => {
+    setBookingData(prev => {
+      const currentFoods = prev.selectedFoods;
+      if (isChecked) {
+        // Add food if checked
+        return { ...prev, selectedFoods: [...currentFoods, food] };
+      } else {
+        // Remove food if unchecked
+        return { ...prev, selectedFoods: currentFoods.filter(f => f.name !== food.name) };
+      }
+    });
+  };
   const handleBookingSubmit = async () => {
     setIsBooking(true); // This can be used to disable the "Confirm & Proceed" button
     // Validate booking data
@@ -174,7 +212,13 @@ export default function RoomDetailPage() {
     const start = new Date(bookingData.startTime);
     const end = new Date(bookingData.endTime);
     const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
-    const cost = room ? hours * room.pricePerHour : 0;
+
+    if (hours <= 1) {
+      toast.error("Booking must be for more than 1 hour.");
+      setIsBooking(false);
+      return;
+    }
+    const totalCost = bookingData.totalCost;
 
     if (!session || !session.user) {
       toast.error("You must be logged in to book a room.");
@@ -190,22 +234,18 @@ export default function RoomDetailPage() {
           startTime: bookingData.startTime,
           endTime: bookingData.endTime,
           totalHours: hours,
-          totalCost: cost,
+          totalCost: totalCost,
           fullName: bookingData.fullName,
           noOfPeople: Number(bookingData.noOfPeople),
           enrollmentNumber: bookingData.enrollmentNumber,
           address: bookingData.address,
+          foods: bookingData.selectedFoods, // Send selected foods
         }),
       });
       const data = await res.json();
       if (res.ok) {
         toast.success("Booking details confirmed! Please proceed to payment.");
         setBookingId(data.booking._id); // Store booking ID
-        // Set totalCost in state here, only after successful booking creation
-        setBookingData((prevState) => ({
-          ...prevState,
-          totalCost: cost,
-        }));
       } else {
         toast.error(data.message || "Failed to create booking.");
       }
@@ -259,7 +299,7 @@ export default function RoomDetailPage() {
 
           {/* Thumbnails */}
           <div className="flex gap-4 md:gap-6 flex-wrap">
-            {room.images?.slice(0, 4).map((img: string, index: number) => (
+            {room.images?.filter(img => img).slice(0, 4).map((img: string, index: number) => (
               <Image
                 key={index}
                 src={img}
@@ -369,6 +409,22 @@ export default function RoomDetailPage() {
             <span className="text-sm font-medium text-center">{room.dist_btw_room_and_centre}m away</span>
           </div>
         </div>
+        {/* Food Menu */}
+        {room.foods && room.foods.length > 0 && (
+          <div className="mt-8">
+            <h4 className="text-2xl font-bold mb-4">Food Menu</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {room.foods.map((food, index) => (
+                <div key={index} className="p-4 border border-border rounded-xl bg-gray-800 text-center">
+                  <p className="font-semibold text-foreground">{food.name}</p>
+                  <p className="text-primary font-bold">₹{food.price}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+
         {/* About this room/Description */}
       {room.description && (
         <div className="mt-8 border-t border-gray-200 pt-6">
@@ -476,7 +532,7 @@ export default function RoomDetailPage() {
                 {/* Left side: Image and Details */}
                 <div className="w-full md:w-64">
                   <div className="relative h-40 w-full object-cover rounded-2xl overflow-hidden">
-                    <Image src={room.images[0]} alt="room image" layout="fill" className="object-cover" />
+                    <Image src={(room.images && room.images[0]) ? room.images[0] : '/image/login.png'} alt="room image" layout="fill" className="object-cover" />
                   </div>
                   <p className="text-muted-foreground italic text-sm mt-2">ROOM DETAILS</p>
                   <p className="font-bold text-xl text-foreground">{room.nearByCentre}</p>
@@ -491,6 +547,19 @@ export default function RoomDetailPage() {
                         <p><strong>From:</strong> {new Date(bookingData.startTime).toLocaleString()}</p>
                         <p><strong>To:</strong> {new Date(bookingData.endTime).toLocaleString()}</p>
                         <p><strong>Total Stay:</strong> {((new Date(bookingData.endTime).getTime() - new Date(bookingData.startTime).getTime()) / (1000 * 60 * 60)).toFixed(1)} hours</p>
+                        {bookingData.selectedFoods.length > 0 && (
+                          <div className="mt-2 border-t border-gray-600 pt-1">
+                            <p className="font-semibold">Food Items:</p>
+                            <ul className="text-xs">
+                              {bookingData.selectedFoods.map((food, index) => (
+                                <li key={index} className="flex justify-between">
+                                  <span>{food.name}</span>
+                                  <span>₹{food.price}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -535,10 +604,12 @@ export default function RoomDetailPage() {
                       <label className="block text-foreground font-semibold mb-2">Start Time</label>
                       <input
                         type="datetime-local"
-                        className="w-full p-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="w-full p-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary [color-scheme:dark]"
+                        min={minBookingTime}
                         onChange={(e) => {
                           const newStartTime = e.target.value;
-                          setBookingData({ ...bookingData, startTime: newStartTime });
+                          // Also clear endTime if startTime is changed to ensure validation is re-evaluated
+                          setBookingData({ ...bookingData, startTime: newStartTime, endTime: '' });
                         }}
                       />
                     </div>
@@ -546,22 +617,53 @@ export default function RoomDetailPage() {
                       <label className="block text-foreground font-semibold mb-2">End Time</label>
                       <input
                         type="datetime-local"
-                        className="w-full p-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="w-full p-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary [color-scheme:dark]"
+                        disabled={!bookingData.startTime}
+                        min={bookingData.startTime ? (() => {
+                          const startDate = new Date(bookingData.startTime);
+                          startDate.setMinutes(startDate.getMinutes() + 61); // Set min to 1 hour + 1 minute
+                          return startDate.toISOString().slice(0, 16);
+                        })() : ''}
                         onChange={(e) => {
                           const newEndTime = e.target.value;
                           setBookingData({ ...bookingData, endTime: newEndTime });
-                        }}
+                        }}                        
                       />
                     </div>
                   </div>
 
+                  {/* Food Menu Selection */}
+                  {room.foods && room.foods.length > 0 && !bookingId && (
+                    <div className="mt-4">
+                      <label className="block text-foreground font-semibold mb-2">Add Food (Optional)</label>
+                      <div className="grid grid-cols-2 gap-2 p-2 border border-border rounded-lg max-h-32 overflow-y-auto">
+                        {room.foods.map((food, index) => (
+                          <label key={index} className="flex items-center gap-2 cursor-pointer p-1 rounded hover:bg-gray-700">
+                            <input
+                              type="checkbox"
+                              className="form-checkbox h-4 w-4 text-primary bg-gray-700 border-gray-600 rounded focus:ring-primary"
+                              onChange={(e) => handleFoodSelection(food, e.target.checked)}
+                            />
+                            <div className="flex justify-between w-full text-sm">
+                              <span className="text-foreground">{food.name}</span>
+                              <span className="text-green-500 font-medium">₹{food.price}</span>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   <div className="mt-6">
                     {bookingId ? (
                       <>
                         {bookingData.totalCost > 0 ? (
                           <div className="text-center mt-4">
                             {/* <p className="mb-2 text-xl font-semibold">Total Cost: ₹{bookingData.totalCost.toFixed(2)}</p> */}
-                            <PayButton amount={bookingData.totalCost} bookingId={bookingId} />
+                            <PayButton
+                              amount={bookingData.totalCost}
+                              bookingId={bookingId}
+                              onPaymentSuccess={() => setIsBookingModalOpen(false)}
+                            />
                           </div>
                         ) : <p className="text-center">Calculating cost...</p>}
                       </>

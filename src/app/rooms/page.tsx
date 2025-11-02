@@ -13,6 +13,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from 'react'
 import { FanIcon, AirVentIcon, WifiIcon } from "lucide-react";
+interface IRoomWithRating extends IRoom {
+    averageRating: number;
+  }
 import { IRoom } from "@/models/room";
 
 
@@ -48,9 +51,10 @@ function RoomsPageContent() {
     const cityQuery = searchParams.get("city")?.toLowerCase() || "";
     const guestsQuery = Number(searchParams.get("guests") || 0);
 
-    const [allRooms, setAllRooms] = useState<IRoom[]>([]);
-    const [filteredRooms, setFilteredRooms] = useState<IRoom[]>([]);
+    const [allRooms, setAllRooms] = useState<IRoomWithRating[]>([]);
+    const [filteredRooms, setFilteredRooms] = useState<IRoomWithRating[]>([]);
     const [loading, setLoading] = useState(true);
+    const [localSearchQuery, setLocalSearchQuery] = useState(centerQuery || cityQuery);
 
     // Filter states
     const [selectedPeople, setSelectedPeople] = useState<number | null>(null);
@@ -77,10 +81,12 @@ function RoomsPageContent() {
     }, []);
 
     useEffect(() => {
-        const filtered = allRooms.filter((room: IRoom) => {
-            const matchesCenter = centerQuery ? room.nearByCentre.toLowerCase().includes(centerQuery) : true;
-            const matchesCity = cityQuery ? room.address.city.toLowerCase().includes(cityQuery) : true;
+        const filtered = allRooms.filter((room: IRoomWithRating) => {
+            const localQuery = localSearchQuery.toLowerCase();
+            const matchesLocalSearch = localQuery ? room.nearByCentre.toLowerCase().includes(localQuery) || room.address.city.toLowerCase().includes(localQuery) : true;
+
             const initialGuestsQuery = guestsQuery > 0 ? room.noOfPeople >= guestsQuery : true;
+
 
             const matchesPeople = selectedPeople !== null ? (selectedPeople === 5 ? room.noOfPeople > 4 : room.noOfPeople === selectedPeople) : true;
             const matchesPrice = selectedPrice !== null ? room.pricePerHour <= selectedPrice : true;
@@ -91,10 +97,10 @@ function RoomsPageContent() {
                   )
                 : true;
 
-            return matchesCenter && matchesCity && initialGuestsQuery && matchesPeople && matchesPrice && matchesAmenities;
+            return matchesLocalSearch && initialGuestsQuery && matchesPeople && matchesPrice && matchesAmenities;
         });
         setFilteredRooms(filtered);
-    }, [centerQuery, cityQuery, guestsQuery, allRooms, selectedPeople, selectedPrice, selectedAmenities]);
+    }, [localSearchQuery, guestsQuery, allRooms, selectedPeople, selectedPrice, selectedAmenities]);
 
     const handleAmenityChange = (amenity: string) => {
         setSelectedAmenities(prev =>
@@ -135,7 +141,18 @@ function RoomsPageContent() {
         return <div className=" items-center justify-center flex h-screen">Loading...</div>
     }
     return (
-  <div className="w-full min-h-screen text-foreground p-4 flex flex-col items-center sm:pt-30 lg:pt-30">
+  <div className="w-full min-h-screen text-foreground p-4 flex flex-col items-center pt-24 sm:pt-30">
+    {/* Full-width Search Box */}
+    <div className="w-full max-w-6xl mb-6">
+        <input
+            type="text"
+            placeholder="Search by center name or city..."
+            value={localSearchQuery}
+            onChange={(e) => setLocalSearchQuery(e.target.value)}
+            className="w-full p-3 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-lg"
+        />
+    </div>
+
     {/* Filter Toggle Button for Mobile */}
     <div className="w-full max-w-6xl md:hidden mb-4">
         <button
@@ -240,7 +257,11 @@ function RoomsPageContent() {
                     </div>
                     <div className="flex flex-col items-end gap-2">
                       <Chip label={room.isAvailable ? "Available" : "Unavailable"} color={room.isAvailable ? "success" : "error"} size="small" />
-                      <div className="flex items-center text-yellow-500"><StarIcon className="mr-1" /><span>4.5</span></div>
+                      <div className="flex items-center text-yellow-500">
+                        <StarIcon className="mr-1" />
+                        {/* Show average rating */}
+                        <span>{room.averageRating ? room.averageRating.toFixed(1) : 'N/A'}</span>
+                      </div>
                     </div>
                   </div>
 

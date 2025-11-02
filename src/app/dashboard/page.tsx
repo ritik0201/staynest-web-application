@@ -15,6 +15,7 @@ interface IRoomPopulatedBooking extends Omit<IBooking, 'roomId'> {
     _id: string;
     nearByCentre: string;
   };
+  foods?: { name: string; price: number }[];
 }
 
 
@@ -177,6 +178,20 @@ export default function DashboardPage() {
                         {booking.roomId.nearByCentre}
                       </p>
                       <p className="text-xs text-muted-foreground font-mono mt-1">ID: {String(booking._id)}</p>
+
+                      {/* Food Items */}
+                      {booking.foods && booking.foods.length > 0 && (
+                        <div className="mt-2 pt-2 border-t border-gray-700">
+                          <p className="text-xs font-semibold text-primary">Food Ordered:</p>
+                          <ul className="text-xs text-muted-foreground list-disc list-inside">
+                            {booking.foods.map((food, index) => (
+                              <li key={index}>
+                                {food.name} - ₹{food.price}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex-shrink-0 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 text-sm">

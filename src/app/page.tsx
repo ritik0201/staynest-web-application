@@ -2,14 +2,21 @@
 import { FlipWords } from "@/components/ui/flip-words";
 import Footer from "@/components/footer";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
+import { useDebounce } from 'use-debounce';
 
 export default function Home() {
   const router = useRouter();
   const [center, setCenter] = useState("");
   const [city, setCity] = useState("");
   const [guests, setGuests] = useState("");
+  const [centerSuggestions, setCenterSuggestions] = useState<string[]>([]);
+  const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
+  const [showCenterSuggestions, setShowCenterSuggestions] = useState(false);
+  const [showCitySuggestions, setShowCitySuggestions] = useState(false);
+  const [debouncedCenter] = useDebounce(center, 300);
+  const [debouncedCity] = useDebounce(city, 300);
 
   const handleSearch = () => {
     const query = new URLSearchParams();
@@ -19,6 +26,38 @@ export default function Home() {
 
     router.push(`/rooms?${query.toString()}`);
   };
+
+  const fetchSuggestions = useCallback(async (type: 'center' | 'city', query: string) => {
+    if (query.length < 2) {
+      if (type === 'center') {
+        setCenterSuggestions([]);
+      } else {
+        setCitySuggestions([]);
+      }
+      return;
+    }
+    try {
+      const response = await fetch(`/api/search/suggestions?type=${type}&query=${query}`);
+      const data = await response.json();
+      if (data.success) {
+        if (type === 'center') {
+          setCenterSuggestions(data.suggestions);
+        } else {
+          setCitySuggestions(data.suggestions);
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to fetch ${type} suggestions:`, error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSuggestions('center', debouncedCenter);
+  }, [debouncedCenter, fetchSuggestions]);
+
+  useEffect(() => {
+    fetchSuggestions('city', debouncedCity);
+  }, [debouncedCity, fetchSuggestions]);
 
   const words = ["STAY", "PEACE", "REST ROOM", "ON CENTER"];
 
@@ -52,23 +91,55 @@ export default function Home() {
           {/* Search Section */}
           <div data-aos="fade-up" data-aos-delay="1200" className="w-full max-w-3xl bg-white/70 dark:bg-black/50 backdrop-blur-md rounded-xl p-4 shadow-lg">
            <div className="flex flex-col md:flex-row gap-4 w-full">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Enter your center name"
+                  className="w-full p-3 rounded-md border border-gray-300 placeholder-white text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={center}
+                  onChange={(e) => setCenter(e.target.value)}
+                  onFocus={() => setShowCenterSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowCenterSuggestions(false), 150)}
+                />
+                {showCenterSuggestions && debouncedCenter.length > 1 && (
+                  <ul className="absolute z-10 w-full bg-white dark:bg-gray-800 border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto">
+                    {centerSuggestions.length > 0 ? (
+                      centerSuggestions.map((suggestion, index) => (
+                        <li key={index} className="p-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer" onMouseDown={() => { setCenter(suggestion); setShowCenterSuggestions(false); }}>
+                          {suggestion}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-2 text-gray-500">No matching result found</li>
+                    )}
+                  </ul>
+                )}
+              </div>
 
-              <input
-                type="text"
-                placeholder="Enter your center name"
-                className="w-full p-3 rounded-md border border-gray-300 placeholder-white text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={center}
-                onChange={(e) => setCenter(e.target.value)}
-                
-              />
-
-              <input
-                type="text"
-                placeholder="Enter your city"
-                className="w-full p-3 rounded-md border border-gray-300 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Enter your city"
+                  className="w-full p-3 rounded-md border border-gray-300 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  onFocus={() => setShowCitySuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowCitySuggestions(false), 150)}
+                />
+                {showCitySuggestions && debouncedCity.length > 1 && (
+                  <ul className="absolute z-10 w-full bg-white dark:bg-gray-800 border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto">
+                    {citySuggestions.length > 0 ? (
+                      citySuggestions.map((suggestion, index) => (
+                        <li key={index} className="p-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer" onMouseDown={() => { setCity(suggestion); setShowCitySuggestions(false); }}>
+                          {suggestion}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-2 text-gray-500">No matching result found</li>
+                    )}
+                  </ul>
+                )}
+              </div>
 
               <input
                 type="number"

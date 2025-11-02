@@ -1,82 +1,87 @@
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Room from "@/models/room";
-import Review from "@/models/review"; 
-import { NextRequest, NextResponse } from "next/server";
+import Review from "@/models/review"; // Import the Review model to ensure it's registered
+import User from "@/models/user"; // Import the User model for nested population
+import { getToken } from "next-auth/jwt";
 
 export async function GET(
-  request: NextRequest,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  await dbConnect();
-  Review.findOne(); // Ensure Review model is registered
-
   try {
+    // The import above is usually enough, but this ensures it's used.
+    await dbConnect();
+    // Explicitly register models to prevent MissingSchemaError in serverless environments.
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    User.modelName;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    Review.modelName;
     const { id } = await context.params;
-
     const room = await Room.findById(id)
+      .populate('userId', 'username email mobilenumber')
       .populate({
-        path: "reviews",
+        path: 'reviews',
         populate: {
-          path: "userId",
-          model: "User",
-          select: "username email", // only required fields
-        },
-      })
-      .populate("userId", "username email mobilenumber"); // Room owner details
+          path: 'userId',
+          select: 'username email'
+        }
+      });
 
     if (!room) {
-      return NextResponse.json(
-        { success: false, message: "Room not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, message: "Room not found" }, { status: 404 });
     }
 
     return NextResponse.json({ success: true, room });
   } catch (error) {
-    console.error("Failed to fetch room:", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to fetch room" },
-      { status: 500 }
-    );
+    console.error("Error fetching room:", error);
+    return NextResponse.json({ success: false, message: "Failed to fetch room" }, { status: 500 });
   }
 }
 
 export async function PATCH(
-  request: NextRequest,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  await dbConnect();
+  const token = await getToken({ req });
+  if (!token) {
+    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+  }
 
   try {
-    const { id } = await context.params;
-    const { isAvailable } = await request.json();
+    const { id: roomId } = await context.params;
+    await dbConnect();
+    const body = await req.json();
 
-    if (typeof isAvailable !== "boolean") {
-      return NextResponse.json(
-        { success: false, message: "Invalid 'isAvailable' status provided." },
-        { status: 400 }
-      );
+    const room = await Room.findById(roomId);
+
+    if (!room) {
+      return NextResponse.json({ success: false, message: "Room not found" }, { status: 404 });
+    }
+
+    // Security check: Ensure the user updating the room is the owner
+    if (room.userId.toString() !== token.sub) {
+      return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
     }
 
     const updatedRoom = await Room.findByIdAndUpdate(
-      id,
-      { isAvailable },
+      roomId,
+      { $set: body },
       { new: true, runValidators: true }
     );
 
-    if (!updatedRoom) {
-      return NextResponse.json(
-        { success: false, message: "Room not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ success: true, room: updatedRoom });
+    return NextResponse.json({ success: true, message: "Room updated successfully", room: updatedRoom });
   } catch (error) {
-    console.error("Failed to update room status:", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to update room status" },
-      { status: 500 }
-    );
+    console.error("Error updating room:", error);
+    return NextResponse.json({ success: false, message: "Failed to update room" }, { status: 500 });
   }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  _context: { params: Promise<{ id: string }> }
+) {
+    // Similar logic for DELETE can be implemented here, including ownership check
+    // For now, returning a placeholder
+    return NextResponse.json({ success: true, message: "DELETE method placeholder" });
 }

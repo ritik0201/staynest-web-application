@@ -1,6 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 import Room from "./room";
 
+const foodSchema = new Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+});
+
 export interface IBooking extends Document {
   userId: Schema.Types.ObjectId;
   roomId: Schema.Types.ObjectId;
@@ -18,6 +23,7 @@ export interface IBooking extends Document {
   status: 'booked' | 'completed';
   createdAt: Date;
   updatedAt: Date;
+  foods?: { name: string; price: number }[];
 }
 
 const bookingSchema = new Schema<IBooking>({
@@ -70,6 +76,10 @@ const bookingSchema = new Schema<IBooking>({
     type: String, 
     enum: ['booked', 'completed'],
     default: 'booked',
+  },
+  foods: {
+    type: [foodSchema],
+    default: [],
   },
   createdAt: {
     type: Date,

@@ -34,7 +34,11 @@ declare global {
   }
 }
 
-export default function PayButton({ amount, bookingId }: { amount: number; bookingId: string }) {
+export default function PayButton({
+  amount,
+  bookingId,
+  onPaymentSuccess,
+}: { amount: number; bookingId: string; onPaymentSuccess?: () => void }) {
 
   const { data: session } = useSession();
 
@@ -104,6 +108,9 @@ export default function PayButton({ amount, bookingId }: { amount: number; booki
         toast.error("Failed to update booking after payment. Contact support.");
       } else {
         toast.success("Booking confirmed! Thank you!");
+        if (onPaymentSuccess) {
+          onPaymentSuccess();
+        }
       }
     } catch (error: unknown) {
       console.error("Error updating booking:", error);

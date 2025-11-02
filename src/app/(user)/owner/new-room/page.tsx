@@ -23,6 +23,7 @@ export default function NewRoom() {
     description: string;
     dist_btw_room_and_centre: string;
     amenities: string[];
+    foods: { name: string; price: string }[];
   };
   const [previews, setPreviews] = useState<(string | null)[]>([null, null, null, null]);
   const [images, setImages] = useState<(File | null)[]>([null, null, null, null]);
@@ -43,6 +44,7 @@ export default function NewRoom() {
     description: "",
     dist_btw_room_and_centre: "",
     amenities: [] as string[],
+    foods: [],
   });
 
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -67,6 +69,21 @@ export default function NewRoom() {
         ? prev.amenities.filter((a) => a !== amenity)
         : [...prev.amenities, amenity],
     }));
+  };
+
+  // Handle food items
+  const handleFoodChange = (index: number, field: 'name' | 'price', value: string) => {
+    const newFoods = [...formData.foods];
+    newFoods[index] = { ...newFoods[index], [field]: value };
+    setFormData({ ...formData, foods: newFoods });
+  };
+
+  const addFoodItem = () => {
+    setFormData({ ...formData, foods: [...formData.foods, { name: '', price: '' }] });
+  };
+
+  const removeFoodItem = (index: number) => {
+    setFormData({ ...formData, foods: formData.foods.filter((_, i) => i !== index) });
   };
 
   // handle location button
@@ -104,9 +121,11 @@ export default function NewRoom() {
       images.forEach((img) => {
         if (img) data.append("images", img);
       });
-      (Object.keys(formData) as Array<keyof FormDataState>).forEach((key) => {
+      (Object.keys(formData) as Array<keyof typeof formData>).forEach((key) => {
         if (key === "amenities") {
           data.append("amenities", JSON.stringify(formData.amenities));
+        } else if (key === "foods") {
+          data.append("foods", JSON.stringify(formData.foods));
         } else {
           // All other values are strings, so this is safe.
           data.append(key, formData[key] as string);
@@ -140,6 +159,7 @@ export default function NewRoom() {
           description: "",
           dist_btw_room_and_centre: "",
           amenities: [],
+          foods: [],
         });
         setPreviews([null, null, null, null]);
         setImages([null, null, null, null]);
@@ -157,7 +177,7 @@ export default function NewRoom() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="px-6 md:px-10 bg-purple-100">
+      <form onSubmit={handleSubmit} className="px-6 md:px-10 ">
         <h1 className="font-semibold flex text-3xl md:text-5xl text-purple-600 pt-33 md:pt-24">
           <AddBoxOutlinedIcon
             style={{ fontSize: "3rem", fontWeight: "5rem", marginRight: "8px" }}
@@ -185,7 +205,7 @@ export default function NewRoom() {
                   >
                     {previews[i] ? (
                       <Image
-                        src={previews[i] ?? ""}
+                        src={previews[i]!}
                         alt={`Preview ${i + 1}`}
                         fill
                         className="object-cover"
@@ -214,7 +234,7 @@ export default function NewRoom() {
           <div className="w-full md:w-5/12 md:mt-8 flex flex-col gap-4">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="w-full sm:w-1/2">
-                <h4 className="text-black text-1xl font-semibold">
+                <h4 className="text-1xl font-semibold">
                   Room owner full Name
                 </h4>
                 <input
@@ -227,7 +247,7 @@ export default function NewRoom() {
                 />
               </div>
               <div className="w-full sm:w-1/2">
-                <h4 className="text-black text-1xl font-semibold">
+                <h4 className="text-1xl font-semibold">
                   Distance (in meters)
                 </h4>
                 <input
@@ -240,7 +260,7 @@ export default function NewRoom() {
                 />
               </div>
             </div>
-            <h4 className="text-black text-1xl font-semibold mt-4 ">
+            <h4 className="text-1xl font-semibold mt-4 ">
               Nearby Centre
             </h4>
             <input
@@ -370,6 +390,39 @@ export default function NewRoom() {
                 setFormData({ ...formData, description: e.target.value })
               }
             />
+          </div>
+        </div>
+
+        {/* Food Menu Section */}
+        <div className="mt-10">
+          <div className="flex items-center justify-between">
+            <h3 className="text-purple-600 text-xl md:text-2xl font-semibold">
+              Food Menu (Optional)
+            </h3>
+            <button
+              type="button"
+              onClick={addFoodItem}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Add Food
+            </button>
+          </div>
+          <div className="flex flex-col gap-4 mt-4">
+            {formData.foods.map((food, index) => (
+              <div key={index} className="flex items-center gap-4 p-2 border rounded-lg">
+                <input
+                  type="text" placeholder="Food Name (e.g., Thali)" value={food.name}
+                  onChange={(e) => handleFoodChange(index, 'name', e.target.value)}
+                  className="border-2 border-gray-400 rounded-md w-full p-2"
+                />
+                <input
+                  type="number" placeholder="Price" value={food.price}
+                  onChange={(e) => handleFoodChange(index, 'price', e.target.value)}
+                  className="border-2 border-gray-400 rounded-md w-48 p-2"
+                />
+                <button type="button" onClick={() => removeFoodItem(index)} className="text-red-500 hover:text-red-700">Remove</button>
+              </div>
+            ))}
           </div>
         </div>
 

@@ -4,10 +4,10 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Chip, Switch, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, CircularProgress } from "@mui/material";
+import { Chip, Switch, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, CircularProgress, IconButton } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
-import { Trash2, BedDouble, CheckCircle, XCircle } from 'lucide-react';
+import { Trash2, BedDouble, CheckCircle, XCircle, Edit, PlusCircle, MinusCircle } from 'lucide-react';
 
 // Define a plain interface for the room data to be used in the client-side state
 interface IRoomData {
@@ -23,6 +23,7 @@ interface IRoomData {
   pricePerHour: number;
   images: string[];
   isAvailable: boolean;
+  foods?: { name: string; price: number }[];
   // Add any other fields from IRoom that you use in this component
 }
 
@@ -36,6 +37,11 @@ export default function OwnerPage() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [roomToDelete, setRoomToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // State for food menu editing modal
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingRoom, setEditingRoom] = useState<IRoomData | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const totalRooms = rooms.length;
   const availableRooms = rooms.filter(room => room.isAvailable).length;
@@ -127,10 +133,60 @@ export default function OwnerPage() {
     }
   };
 
+  // --- Food Menu Modal Functions ---
+  const openEditModal = (room: IRoomData) => {
+    setEditingRoom(JSON.parse(JSON.stringify(room))); // Deep copy to avoid direct state mutation
+    setIsEditModalOpen(true);
+  };
+
+  const handleModalFoodChange = (index: number, field: 'name' | 'price', value: string) => {
+    if (!editingRoom) return;
+    const newFoods = [...(editingRoom.foods || [])];
+    newFoods[index] = { ...newFoods[index], [field]: value };
+    setEditingRoom({ ...editingRoom, foods: newFoods });
+  };
+
+  const addFoodItemToModal = () => {
+    if (!editingRoom) return;
+    const newFoods = [...(editingRoom.foods || []), { name: '', price: 0 }];
+    setEditingRoom({ ...editingRoom, foods: newFoods });
+  };
+
+  const removeFoodItemFromModal = (index: number) => {
+    if (!editingRoom) return;
+    const newFoods = editingRoom.foods?.filter((_, i) => i !== index) || [];
+    setEditingRoom({ ...editingRoom, foods: newFoods });
+  };
+
+  const handleSaveChanges = async () => {
+    if (!editingRoom) return;
+    setIsSaving(true);
+    try {
+      const res = await fetch(`/api/rooms/${editingRoom._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ foods: editingRoom.foods }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to save food menu');
+      }
+
+      // Update the main rooms list with the new data
+      setRooms(prevRooms => prevRooms.map(r => r._id === editingRoom._id ? editingRoom : r));
+      toast.success('Food menu updated successfully!');
+      setIsEditModalOpen(false);
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to save food menu. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   if (loading) {
     return <div className="flex justify-center items-center h-screen">Loading your rooms...</div>;
   }
-
   return (
     <div className="container mx-auto p-4 sm:p-6 pt-20 sm:pt-20 lg:p-8  lg:pt-20 min-h-full">
       
@@ -182,13 +238,30 @@ export default function OwnerPage() {
         <div className="space-y-4">
           {rooms.map((room) => (
             <div key={room._id} className="bg-gray-800 rounded-xl shadow-md p-4 flex flex-col md:flex-row items-start md:items-center gap-4 border border-border hover:shadow-lg transition-shadow">
-              <Image src={room.images[0] || '/image/login.png'} alt={room.nearByCentre} width={128} height={128} className="w-full md:w-32 h-32 object-cover rounded-lg" />
+              <Image src={(room.images && room.images[0]) ? room.images[0] : '/image/login.png'} alt={room.nearByCentre} width={128} height={128} className="w-full md:w-32 h-32 object-cover rounded-lg" />
               <div className="flex-grow">
                 <p className="text-xl font-bold text-foreground">{room.nearByCentre}</p>
                 <p className="text-sm text-muted-foreground">{room.address.street}, {room.address.city}</p>
-                <p className="text-lg font-semibold text-green-600 mt-1">₹{room.pricePerHour}/hour</p>
+                <p className="text-lg font-semibold text-green-600">₹{room.pricePerHour}/hour</p>
+
+                {/* Food Menu */}
+                {room.foods && room.foods.length > 0 && (
+                  <div className="mt-2 pt-2 border-t border-gray-700">
+                    <ul className="space-y-1 text-xs max-h-20 overflow-y-auto">
+                      {room.foods.map((food, index) => (
+                        <li key={index} className="flex justify-between text-muted-foreground pr-2">
+                          <span>{food.name}</span>
+                          <span>₹{food.price}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-4 self-center md:self-auto">
+                <IconButton size="small" onClick={() => openEditModal(room)} className="text-blue-500 hover:bg-blue-900/20">
+                  <Edit size={20} />
+                </IconButton>
                 <Chip label={room.isAvailable ? "Available" : "Unavailable"} color={room.isAvailable ? "success" : "error"} />
                 <Switch checked={room.isAvailable} onChange={() => handleAvailabilityToggle(room._id, room.isAvailable)} />
               </div>
@@ -214,6 +287,53 @@ export default function OwnerPage() {
           <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
           <Button onClick={handleDeleteConfirm} color="error" disabled={isDeleting}>
             {isDeleting ? <CircularProgress size={24} /> : 'Delete'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Edit Food Menu Modal */}
+      <Dialog open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Edit Food Menu for <span className="text-primary">{editingRoom?.nearByCentre}</span></DialogTitle>
+        <DialogContent>
+          <div className="space-y-4 mt-2 max-h-[60vh] overflow-y-auto pr-2">
+            {editingRoom?.foods?.map((food, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <input
+                  type="text"
+                  placeholder="Food Name"
+                  value={food.name}
+                  onChange={(e) => handleModalFoodChange(index, 'name', e.target.value)}
+                  className="bg-gray-700 text-white p-2 rounded w-full focus:ring-1 focus:ring-purple-500 focus:outline-none"
+                />
+                <div className="flex items-center bg-gray-700 rounded">
+                  <span className="text-gray-400 pl-2">₹</span>
+                  <input
+                    type="number"
+                    placeholder="Price"
+                    value={food.price}
+                    onChange={(e) => handleModalFoodChange(index, 'price', e.target.value)}
+                    className="bg-transparent text-white p-2 rounded w-24 focus:outline-none"
+                  />
+                </div>
+                <IconButton onClick={() => removeFoodItemFromModal(index)} className="text-red-500">
+                  <MinusCircle size={20} />
+                </IconButton>
+              </div>
+            ))}
+          </div>
+          <Button
+            startIcon={<PlusCircle size={18} />}
+            onClick={addFoodItemToModal}
+            className="mt-4"
+            sx={{ textTransform: 'none', color: 'white' }}
+          >
+            Add New Food Item
+          </Button>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+          <Button onClick={handleSaveChanges} color="primary" variant="contained" disabled={isSaving}>
+            {isSaving ? <CircularProgress size={24} /> : 'Save Changes'}
           </Button>
         </DialogActions>
       </Dialog>

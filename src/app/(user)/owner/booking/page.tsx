@@ -52,7 +52,7 @@ export default function OwnerBookingsPage() {
   }
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 pt-20 min-h-full">
+    <div className="container mx-auto p-4 sm:p-6 pt-24 md:pt-28 min-h-full">
       <div className="flex items-center mb-8">
         <BookUser className="w-8 h-8 mr-3 text-primary" />
         <h1 className="text-2xl md:text-4xl font-bold text-foreground">My Room Bookings</h1>

@@ -70,19 +70,20 @@ export default function Home() {
   return (
     <div className="relative overflow-hidden">
       <div className="relative bg-[url('/image/background-image.jpg')] bg-cover bg-center h-screen text-white">
+        <div className="absolute inset-0 bg-black/40 z-0"></div>
 
-        <div className="flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-20 ">
+        <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-20 ">
 
           {/* Header Section of home page*/}
           <button data-aos="fade-up" data-aos-delay="300" className="bg-gray-600 w-fit p-0.5 md:p-1 px-2 md:px-4 text-sm border-none rounded-2xl ml-1 md:ml-2 text-center flex justify-center items-center 
-  hover:scale-105 active:scale-95 transition-transform duration-300 ease-in-out animate-bounce">
+  hover:scale-105 active:scale-95 transition-transform duration-300 ease-in-out">
             🎉 get ready for exam
           </button>
           <div className="mb-3 ml-4">
-            <h1 data-aos="fade-up" data-aos-delay="600" className="text-2xl sm:text-3xl md:text-5xl max-w-136 font-bold mb-1 drop-shadow-lg text-gray-700">
+            <h1 data-aos="fade-up" data-aos-delay="600" className="text-4xl sm:text-5xl md:text-6xl max-w-136 font-bold mb-1 drop-shadow-lg text-gray-700">
               Welcome to <br /> Student <FlipWords words={words} />
             </h1>
-            <p data-aos="fade-up" data-aos-delay="900" className="text-sm sm:text-base md:text-[16px] leading-relaxed max-w-[500px] text-black drop-shadow-sm">
+            <p data-aos="fade-up" data-aos-delay="900" className="text-base md:text-lg leading-relaxed max-w-[500px] text-black drop-shadow-sm">
               “A calm stay before the big test,
               So you can give your absolute best.”
             </p>
@@ -169,14 +170,14 @@ export default function Home() {
       <div className="container mx-auto px-4 pt-18">
         <h3
           data-aos="fade-up"
-          className="text-5xl text-center font-bold text-purple-700 mb-4"
+          className="text-4xl md:text-5xl text-center font-bold text-purple-400 mb-4"
         >
           Who we are
         </h3>
         <p
           data-aos="fade-up"
           data-aos-delay="300"
-          className="text-center text-white text-sm md:text-1 mt-4 md:px-30"
+          className="text-center text-muted-foreground text-base md:text-lg mt-4 md:px-30"
         >
           We are a dedicated platform created especially for students who travel
           across cities to appear for competitive and University exams. We
@@ -207,7 +208,7 @@ export default function Home() {
                   <span>{openPanel === "panel1" ? "−" : "+"}</span>
                 </button>
                 {openPanel === "panel1" && (
-                  <div className="p-4 text-gray-700 text-sm md:text-1 bg-purple-50">
+                  <div className="p-4 text-gray-700 text-base bg-purple-50">
                     We are a dedicated platform created especially for students who
                     travel across cities to appear for competitive and University 
                     exams.  We understand how stressful it can be to find a place to
@@ -299,8 +300,8 @@ export default function Home() {
 
       <div className='flex justify-center'>
         <div className='py-30 container'>
-          <h1 className='text-4xl font-bold text-purple-700 text-center'>Facility we Provide</h1>
-          <p className='text-center px-2 md:px-40 md:text-sm mt-4 md:mt-10'> We provide affordable, safe, and comfortable stays near exam centers with all essential facilities for students. Our services include clean and hygienic rooms, 24/7 water supply, and a peaceful environment for focused preparation. With quick booking, time-saving check-ins, and reliable shelter, we ensure students experience a stress-free and comfortable stay.</p>
+          <h1 className='text-4xl md:text-5xl font-bold text-purple-400 text-center'>Facility we Provide</h1>
+          <p className='text-center px-2 md:px-40 text-base md:text-lg text-muted-foreground mt-4 md:mt-10'> We provide affordable, safe, and comfortable stays near exam centers with all essential facilities for students. Our services include clean and hygienic rooms, 24/7 water supply, and a peaceful environment for focused preparation. With quick booking, time-saving check-ins, and reliable shelter, we ensure students experience a stress-free and comfortable stay.</p>
           <div className='flex flex-wrap w-full justify-center mt-5 md:mt-15'>
             <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>
               <Image width="94" height="94" src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="Affordable Price Icon" />

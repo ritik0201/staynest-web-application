@@ -51,7 +51,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         maxLength={10}
                         onChange={(e) => setForm({ ...form, username: e.target.value })}
                     />
-                    <p className="text-sm text-purple-900 mt-1">Username: 6–10 characters, unique</p>
+                    <p className="text-xs text-purple-900 mt-1">Username: 6–10 characters, unique</p>
                 </div>
 
                 <div>
@@ -62,7 +62,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         onChange={(e) => setForm({ ...form, email: e.target.value })} 
                         required
                     />
-                    <p className="text-sm text-purple-900 mt-1">Enter a valid email</p>
+                    <p className="text-xs text-purple-900 mt-1">Enter a valid email</p>
                 </div>
 
                 <div>
@@ -72,7 +72,7 @@ export default function RegisterPage({ handleClose }: { handleClose: () => void 
                         type="tel"
                         onChange={(e) => setForm({ ...form, mobilenumber: e.target.value })}
                     />
-                    <p className="text-sm text-purple-900 mt-1">Enter valid mobile number</p>
+                    <p className="text-xs text-purple-900 mt-1">Enter valid mobile number</p>
                 </div>
 
                 <button

@@ -232,7 +232,7 @@ function RoomsPageContent() {
               className="flex flex-col sm:flex-row w-full bg-gray-800 shadow-md rounded-2xl overflow-hidden border hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image */}
-              <div className="flex-shrink-0 w-full sm:w-1/3 h-64 overflow-hidden">
+              <div className="flex-shrink-0 w-full sm:w-1/3 h-56 sm:h-64 overflow-hidden">
                 <Image
                   src={room.images[0] || '/image/login.png'}
                   alt={room.roomOwner}

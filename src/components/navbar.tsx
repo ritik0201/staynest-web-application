@@ -23,13 +23,13 @@ export default function Navbar() {
   const handleLogout = () => signOut();
 
   return (
-    <nav className="fixed w-full z-50 bg-purple-900 shadow-md">
+    <nav className="fixed w-full z-50 bg-gradient-to-r from-purple-700 to-purple-900 shadow-md">
       {/* Removed max-w-7xl mx-auto so content goes edge to edge */}
       <div className="flex justify-between items-center h-14 px-4 sm:px-6 lg:px-8">
         {/* Left: Company logo/name */}
         <Link href="/" className="flex items-center gap-2">
           <Image src="/image/logo.png" alt="Logo" width={36} height={36} />
-          <div className="text-2xl font-bold text-white">StayNest</div>
+          <div className="text-xl md:text-2xl font-bold text-white">StayNest</div>
         </Link>
 
         {/* Center: Desktop nav links */}
@@ -41,7 +41,7 @@ export default function Navbar() {
             Rooms
           </Link>
           <Link
-            href="#contact"
+            href="/contact"
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
             Contact
@@ -87,7 +87,7 @@ export default function Navbar() {
                     <MenuItem onClick={popupState.close}>
                       <Link
                         href="/dashboard"
-                        className="w-full flex items-center gap-4 text-gray-800 px-8 py-2"
+                        className="w-full flex items-center gap-4 text-white px-8 py-2"
                       >
                         <User size={22} /> {session.user?.name}
                       </Link>
@@ -95,7 +95,7 @@ export default function Navbar() {
                     <MenuItem onClick={popupState.close}>
                       <Link
                         href={"/profile"}
-                        className="w-full flex items-center gap-4 text-gray-800 px-8 py-2"
+                        className="w-full flex items-center gap-4 text-white px-8 py-2"
                       >
                         <Settings size={22} /> Account
                       </Link>

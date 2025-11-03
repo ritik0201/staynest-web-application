@@ -110,6 +110,8 @@ export default function RoomDetailPage() {
           setRoom(data.room);
           if (data.room.images && data.room.images.length > 0) {
             setSelectedImage(data.room.images[0]);
+          } else {
+            setSelectedImage('/image/login.png'); // Default image
           }
         } else {
           toast.error(data.message || "Failed to fetch room details.");
@@ -357,7 +359,7 @@ export default function RoomDetailPage() {
       <div className="flex justify-between flex-wrap">
         <div>
           <p className="text-sm text-primary font-semibold uppercase mt-8 mb-2">Room Details</p>
-          <h3 className="text-4xl font-bold font-sans">{room.nearByCentre}</h3>
+          <h3 className="text-3xl md:text-4xl font-bold font-sans">{room.nearByCentre}</h3>
           <h5 className="text-lg mt-2 font-sans">Address: {room.address.street}, {room.address.city}, {room.address.state}, {room.address.pincode}</h5>
         </div>
         <div className="mt-6 flex flex-col justify-center gap-2">
@@ -537,7 +539,7 @@ export default function RoomDetailPage() {
                   <p className="text-muted-foreground italic text-sm mt-2">ROOM DETAILS</p>
                   <p className="font-bold text-xl text-foreground">{room.nearByCentre}</p>
                   <p className="text-md font-semibold text-green-600">₹{room.pricePerHour} / hour</p>
-                  <p className="text-sm text-muted-foreground">{room.address.street}, {room.address.city}, {room.address.state}, {room.address.pincode}</p>
+                  <p className="text-xs text-muted-foreground">{room.address.street}, {room.address.city}, {room.address.state}, {room.address.pincode}</p>
 
                   {/* Booking Summary - shown after booking is created */}
                   {bookingId && bookingData.totalCost > 0 && (

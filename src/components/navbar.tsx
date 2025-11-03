@@ -145,14 +145,14 @@ export default function Navbar() {
               Rooms
             </Link>
             <Link
-              href="#contact"
+              href="/contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
               Contact
             </Link>
             <Link
-              href="/dashoard"
+              href="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >

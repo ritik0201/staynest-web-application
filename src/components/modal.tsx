@@ -4,7 +4,8 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import RegisterForm from '@/components/registration'; 
-import Login from '@/components/sign-in';
+import Login from '@/components/sign-in'; // Assuming Login component is in sign-in.tsx
+import ForgotPasswordContent from '@/components/forgot-password-modal-content';
 
 
 const style = {
@@ -53,6 +54,23 @@ function ChildModal() {
   );
 }
 
+function ForgotPasswordModal() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <React.Fragment>
+      <Button onClick={handleOpen} sx={{ textTransform: 'none', padding: 0, margin: 0, color: 'purple' }}>Forgot password?</Button>
+      <Modal open={open} onClose={handleClose} aria-labelledby="forgot-password-modal-title" aria-describedby="forgot-password-modal-description">
+        <Box sx={{ ...style, width: 400, borderRadius: '1rem', backgroundColor: '#f5f5f5' }}>
+          <ForgotPasswordContent handleClose={handleClose} />
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+
 interface RegisterModalProps {
   open: boolean;
   handleClose: () => void;
@@ -75,9 +93,11 @@ export default function RegisterModal({ open, handleClose }: RegisterModalProps)
         }}
       >
         <Login handleClose={handleClose} />
-        <ChildModal />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
+          <ChildModal />
+          <ForgotPasswordModal />
+        </div>
       </Box>
     </Modal>
   );
 }
-

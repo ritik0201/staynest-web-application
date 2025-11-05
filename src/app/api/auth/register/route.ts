@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
-import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { registrationSchema } from "@/schema/registrationSchema";
@@ -44,12 +43,11 @@ export async function POST(req: NextRequest) {
 
         // Generate secure random password
         const randomPassword = crypto.randomBytes(6).toString("base64"); // ~8 chars
-        const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
         const newUser = new User({
             username,
             email,
-            password: hashedPassword,
+            password: randomPassword,
             mobilenumber,
         });
 

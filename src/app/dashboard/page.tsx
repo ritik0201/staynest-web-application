@@ -107,7 +107,7 @@ export default function DashboardPage() {
 
           </button>
           <button
-            className="relative px-12 py-3 mt-6 bg-secondary text-secondary-foreground border-border border-2 rounded-lg transition ml-2 flex items-center gap-2"
+            className="relative overflow-hidden px-12 py-3 mt-6 bg-secondary text-secondary-foreground border-border border-2 rounded-lg transition ml-2 flex items-center gap-2"
             onClick={() => setOpen(true)}
           >
             <BorderBeam
@@ -123,7 +123,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Owner Card */}
-        <div className="relative mt-8 bg-gray-800 border border-border rounded-2xl shadow-lg p-6 flex flex-col items-start md:items-center justify-between hover:shadow-xl transition-shadow duration-300">
+        <div className="relative overflow-hidden mt-8 bg-gray-800 border border-border rounded-2xl shadow-lg p-6 flex flex-col items-start md:items-center justify-between hover:shadow-xl transition-shadow duration-300">
           <BorderBeam
             duration={12}
             delay={300}
@@ -165,7 +165,7 @@ export default function DashboardPage() {
               {bookings.map((booking) => (
                 <Link href={`/rooms/${booking.roomId._id}`} key={String(booking._id)} className="block ">
 
-                  <div className="relative bg-gray-800 rounded-lg shadow-md shadow-purple-500/20  p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4  border-2 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+                  <div className="relative overflow-hidden bg-gray-800 rounded-lg shadow-md shadow-purple-500/20  p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4  border-2 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
                     <BorderBeam
                       duration={12}
                       delay={300}

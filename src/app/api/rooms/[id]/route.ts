@@ -78,7 +78,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _req: NextRequest,
   _context: { params: Promise<{ id: string }> }
 ) {
     // Similar logic for DELETE can be implemented here, including ownership check

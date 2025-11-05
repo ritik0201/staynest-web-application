@@ -70,7 +70,7 @@ export default function PayButton({
       key: process.env.NEXT_PUBLIC_RP_KEY_ID ?? "", // only public key here
       amount: order.amount,
       currency: order.currency,
-      name: "College Project",
+      name: "StayNest",
       description: "Payment for Demo",
       order_id: order.id,
       handler: async function (response: RazorpayResponse) {

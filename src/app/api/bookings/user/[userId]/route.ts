@@ -34,11 +34,18 @@ export async function GET(
       { $set: { status: 'completed' } }
     );
 
-    const bookings = await Booking.find({ userId })
+    const bookings = await Booking.find({ userId: userId })
       .sort({ createdAt: -1 })
-      .populate('roomId', 'nearByCentre');
+      .populate({
+        path: 'roomId',
+        select: 'nearByCentre name mainImage', // Populate specific fields you need
+      })
+      .exec();
 
-    return NextResponse.json({ success: true, bookings }, { status: 200 });
+    // Filter out bookings where the room has been deleted
+    const validBookings = bookings.filter(booking => booking.roomId);
+
+    return NextResponse.json({ success: true, bookings: validBookings }, { status: 200 });
   } catch (error) {
     console.error('Error fetching user bookings:', error);
     return NextResponse.json(

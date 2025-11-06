@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { toast } from "sonner";
 import RegisterModal from "@/components/modal";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -21,6 +22,15 @@ export default function Navbar() {
 
   const { data: session } = useSession();
   const handleLogout = () => signOut();
+
+  const handleDashboardClick = (e: React.MouseEvent) => {
+    if (!session) {
+      e.preventDefault();
+      setOpenModal(true);
+      toast.info("Please log in to access the dashboard.");
+    }
+    setMobileMenuOpen(false); // Close mobile menu if open
+  };
 
   return (
     <nav className="fixed w-full z-50 bg-gradient-to-r from-purple-700 to-purple-900 shadow-md">
@@ -46,12 +56,13 @@ export default function Navbar() {
           >
             Contact
           </Link>
-          <Link
+          <a
             href="/dashboard"
+            onClick={handleDashboardClick}
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
             Dashboard
-          </Link>
+          </a>
         </div>
 
         {/* Right: Desktop buttons */}
@@ -151,13 +162,13 @@ export default function Navbar() {
             >
               Contact
             </Link>
-            <Link
+            <a
               href="/dashboard"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={handleDashboardClick}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
-              Dashoard
-            </Link>
+              Dashboard
+            </a>
 
             {!session ? (
               <button

@@ -1,18 +1,45 @@
 'use client'
 import { useState } from "react";
 import Footer from "@/components/footer";
+import { toast } from "sonner";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function ContactPage() {
   const PHONE = "9125890877";
   const EMAIL = "staynest0@gmail.com";
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [loading, setLoading] = useState(false);
 
-  const handleMailTo = (subject = "Support request from StayNest") => {
-    const body = `Name: ${name || "N/A"}%0D%0AEmail: ${email || "N/A"}%0D%0A%0D%0A${message || ""}`;
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        setForm({ name: "", email: "", subject: "", message: "" }); // Reset form
+      } else {
+        toast.error(data.message || "Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCall = () => {
@@ -21,25 +48,25 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 antialiased">
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-purple-400">Contact StayNest</h1>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-32">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-purple-400 text-center md:text-left">Contact StayNest</h1>
         <p className="mt-3 text-lg text-slate-400 max-w-2xl">
           Need help? Call us 24/7 or send an email. We&apos;re happy to assist with bookings, refunds, or any questions.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact card */}
           <div className="rounded-2xl bg-slate-800/80 border border-slate-700 p-6 shadow-lg">
             <h2 className="text-2xl font-semibold text-white">Get in touch</h2>
             <p className="mt-2 text-slate-300">Support available 24×7 — call or email anytime.</p>
 
             <div className="mt-8 space-y-6">
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-4">
                 <div>
                   <div className="text-sm text-slate-300">Phone</div>
                   <div className="text-lg font-medium">{PHONE}</div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-shrink-0">
                   <button
                     onClick={handleCall}
                     className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md font-medium transition-colors"
@@ -50,7 +77,10 @@ export default function ContactPage() {
                   </button>
 
                   <button
-                    onClick={() => navigator.clipboard?.writeText(PHONE)}
+                    onClick={() => {
+                      navigator.clipboard?.writeText(PHONE);
+                      toast.success("Phone number copied to clipboard!");
+                    }}
                     className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-md font-medium transition-colors"
                     aria-label="Copy phone"
                   >
@@ -59,14 +89,14 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-4">
                 <div>
                   <div className="text-sm text-slate-300">Email</div>
                   <div className="text-lg font-medium">{EMAIL}</div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-shrink-0">
                   <button
-                    onClick={() => handleMailTo("General enquiry for StayNest")}
+                    onClick={() => window.location.href = `mailto:${EMAIL}`}
                     className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md font-medium transition-colors"
                     aria-label="Email us"
                   >
@@ -75,7 +105,10 @@ export default function ContactPage() {
                   </button>
 
                   <button
-                    onClick={() => navigator.clipboard?.writeText(EMAIL)}
+                    onClick={() => {
+                      navigator.clipboard?.writeText(EMAIL);
+                      toast.success("Email address copied to clipboard!");
+                    }}
                     className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-md font-medium transition-colors"
                     aria-label="Copy email"
                   >
@@ -129,44 +162,52 @@ export default function ContactPage() {
           <p className="text-sm text-slate-300 mt-1">Fill below and we&apos;ll open your email client to send the message.</p>
 
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleMailTo("Contact from StayNest website");
-            }}
-            className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4"
+            onSubmit={handleFormSubmit}
+            className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
           >
             <input
               placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)} // prettier-ignore
+              name="name"
+              value={form.name}
+              onChange={handleFormChange}
               className="md:col-span-1 px-3 py-2 rounded-md bg-slate-700 placeholder-slate-400 outline-none focus:ring-2 focus:ring-purple-500 transition-shadow"
+              required
             />
             <input
               placeholder="Your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)} // prettier-ignore
-              className="md:col-span-1 px-3 py-2 rounded-md bg-slate-700 placeholder-slate-400 outline-none focus:ring-2 focus:ring-purple-500 transition-shadow"
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleFormChange}
+              className="sm:col-span-1 px-3 py-2 rounded-md bg-slate-700 placeholder-slate-400 outline-none focus:ring-2 focus:ring-purple-500 transition-shadow"
+              required
             />
             <input
               placeholder="Subject (optional)"
-              className="md:col-span-1 px-3 py-2 rounded-md bg-slate-700 placeholder-slate-400 outline-none focus:ring-2 focus:ring-purple-500 transition-shadow"
+              name="subject"
+              value={form.subject}
+              onChange={handleFormChange}
+              className="sm:col-span-2 md:col-span-1 px-3 py-2 rounded-md bg-slate-700 placeholder-slate-400 outline-none focus:ring-2 focus:ring-purple-500 transition-shadow"
             />
             <textarea
               placeholder="Message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)} // prettier-ignore
-              className="md:col-span-3 px-3 py-3 rounded-md bg-slate-700 placeholder-slate-400 outline-none h-28 focus:ring-2 focus:ring-purple-500 transition-shadow"
+              name="message"
+              value={form.message}
+              onChange={handleFormChange}
+              className="sm:col-span-2 md:col-span-3 px-3 py-3 rounded-md bg-slate-700 placeholder-slate-400 outline-none h-28 focus:ring-2 focus:ring-purple-500 transition-shadow"
+              required
             />
             <div className="md:col-span-3 flex justify-end gap-3">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-md font-medium transition-colors"
+                disabled={loading}
+                className="inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 px-5 py-2 rounded-md font-medium transition-colors w-36"
               >
-                Send message
+                {loading ? <CircularProgress size={20} color="inherit" /> : "Send Message"}
               </button>
               <button
                 type="button"
-                onClick={() => { setName(""); setEmail(""); setMessage(""); }}
+                onClick={() => setForm({ name: "", email: "", subject: "", message: "" })}
                 className="inline-flex items-center gap-2 bg-slate-600 hover:bg-slate-500 text-white px-4 py-2 rounded-md font-medium transition-colors"
               >
                 Reset

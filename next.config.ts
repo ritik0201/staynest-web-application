@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // No changes needed here, but showing for context.
+  // The actual change is in tailwind.config.ts
 };
 
 export default nextConfig;

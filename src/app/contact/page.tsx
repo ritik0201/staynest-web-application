@@ -136,14 +136,14 @@ export default function ContactPage() {
                 <div className="flex-none w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-400 text-white flex items-center justify-center font-semibold text-lg">RK</div>
                 <div>
                   <div className="font-medium text-white">Ritik Kumar</div>
-                  <div className="text-sm text-slate-400">Co-founder</div>
+                  <div className="text-sm text-slate-400">Founder</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
                 <div className="flex-none w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-400 text-white flex items-center justify-center font-semibold text-lg">AF</div>
                 <div>
-                  <div className="font-medium text-white">Arayn</div>
+                  <div className="font-medium text-white">Aryan</div>
                   <div className="text-sm text-slate-400">Co-founder</div>
                 </div>
               </div>

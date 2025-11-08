@@ -126,7 +126,7 @@ export default function PayButton({
       onClick={handlePay}
       className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-md"
     >
-      Pay ₹{amount}
+      Pay ₹{amount.toFixed(2)}
     </button>
   );
 }

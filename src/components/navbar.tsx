@@ -51,18 +51,24 @@ export default function Navbar() {
             Rooms
           </Link>
           <Link
-            href="/contact"
+            href="/blogs"
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
-            Contact
+            Blogs
           </Link>
-          <a
+          <Link
             href="/dashboard"
             onClick={handleDashboardClick}
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
             Dashboard
-          </a>
+          </Link>
+          <Link
+            href="/contact"
+            className="px-4 py-2 rounded-md transition-colors duration-200"
+          >
+            Contact
+          </Link>
         </div>
 
         {/* Right: Desktop buttons */}
@@ -156,19 +162,26 @@ export default function Navbar() {
               Rooms
             </Link>
             <Link
+              href="/blogs"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
+            >
+              Blogs
+            </Link>
+            <Link
               href="/contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
               Contact
             </Link>
-            <a
+            <Link
               href="/dashboard"
               onClick={handleDashboardClick}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
               Dashboard
-            </a>
+            </Link>
 
             {!session ? (
               <button

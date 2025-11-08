@@ -9,6 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+src\app\blogs\create\page.tsx
 
 
 src\app\(user)\Footer.tsx

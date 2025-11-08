@@ -464,7 +464,7 @@ export default function RoomDetailPage() {
                         }`}
                     />
                   ))}
-                  <span className="ml-2 text-sm font-medium text-gray-600">{review.rating.toFixed(1)}/5</span>
+                  <span className="ml-2 text-sm font-medium text-gray-600">{typeof review.rating === 'number' ? review.rating.toFixed(1) : 'N/A'}/5</span>
                 </div>
 
                 {/* Review Text */}

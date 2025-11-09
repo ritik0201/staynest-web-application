@@ -72,21 +72,23 @@ export default function Home() {
       <div className="relative bg-[url('/image/background-image.jpg')] bg-cover bg-center h-screen text-white">
         <div className="absolute inset-0 bg-black/40 z-0"></div>
 
-        <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-20 ">
+        <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-10 ">
 
           {/* Header Section of home page*/}
-          <button data-aos="fade-up" data-aos-delay="300" className="bg-gray-600 w-fit p-0.5 md:p-1 px-2 md:px-4 text-sm border-none rounded-2xl ml-1 md:ml-2 text-center flex justify-center items-center 
-  hover:scale-105 active:scale-95 transition-transform duration-300 ease-in-out">
+          <div data-aos="fade-up" data-aos-delay="300" className="bg-gray-600 w-fit p-0.5 md:p-1 px-2 md:px-4 text-sm border-none rounded-2xl ml-1 md:ml-2 text-center flex justify-center items-center">
             🎉 get ready for exam
-          </button>
+          </div>
           <div className="mb-3 ml-4">
-            <h1 data-aos="fade-up" data-aos-delay="600" className="text-4xl sm:text-5xl md:text-6xl max-w-136 font-bold mb-1 drop-shadow-lg text-gray-700">
-              Welcome to <br /> Student <FlipWords words={words} />
+            <h1 data-aos="fade-up" data-aos-delay="600" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-1 drop-shadow-lg text-gray-700">
+              <span className="block">StayNest:</span>
+              <span>
+                Student Stays Near <FlipWords words={words} />
+              </span>
             </h1>
-            <p data-aos="fade-up" data-aos-delay="900" className="text-base md:text-lg leading-relaxed max-w-[500px] text-black drop-shadow-sm">
+            <h2 data-aos="fade-up" data-aos-delay="900" className=" leading-relaxed  text-black drop-shadow-sm font-normal">
               “A calm stay before the big test,
               So you can give your absolute best.”
-            </p>
+            </h2>
           </div>
 
           {/* Search Section */}

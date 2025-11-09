@@ -16,6 +16,7 @@ export default function CreateBlog() {
   const [slug, setSlug] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
+  const [writerName, setWriterName] = useState("")
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -84,6 +85,7 @@ export default function CreateBlog() {
         slug, // Send the custom or auto-generated slug
         content,
         coverImage: uploadedImageUrl,
+        writerName,
       });
   
       toast.success("✅ Blog created successfully!");
@@ -181,7 +183,7 @@ export default function CreateBlog() {
             value={content}
             onChange={setContent}
             modules={modules}
-            className="h-96"
+            className="h-64 md:h-96"
             placeholder="Start writing your blog content here..."
           />
         </div>
@@ -195,15 +197,23 @@ export default function CreateBlog() {
         `}</style>
 
         {/* Submit button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className={`mt-8 w-full md:w-auto float-right bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          {loading ? "Publishing..." : "Publish Blog"}
-        </button>
+        <div className="mt-20 flex flex-col md:flex-row justify-end items-center gap-4">
+              <input
+                type="text"
+                value={writerName}
+                onChange={(e) => setWriterName(e.target.value)}
+                placeholder="Writer's Name"
+                className="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
+                required
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full md:w-auto bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                {loading ? "Publishing..." : "Publish Blog"}
+              </button>
+            </div>
       </form>
     </div>
   </div>

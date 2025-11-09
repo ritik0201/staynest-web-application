@@ -12,7 +12,7 @@
 src\app\blogs\create\page.tsx
 
 
-src\app\(user)\Footer.tsx
+# git rm --cached src/app/blogs/create/page.tsx
 # testing
 /coverage
 

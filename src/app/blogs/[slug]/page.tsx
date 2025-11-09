@@ -69,9 +69,14 @@ export default async function BlogDetailPage({
             {blog.title}
           </h1>
 
-          <p className="text-gray-400 text-md mb-10">
-            Published on {new Date(blog.createdAt).toLocaleDateString()}
-          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-gray-400 text-md mb-10">
+            <p>
+              Published on {new Date(blog.createdAt).toLocaleDateString()}
+            </p>
+            {blog.writerName && (
+              <p className="mt-2 sm:mt-0">Written by: <span className="font-semibold text-gray-300">{blog.writerName}</span></p>
+            )}
+          </div>
 
           {/* Dynamic content rendering with automatic class injection */}
           <div>{styledContent}</div>

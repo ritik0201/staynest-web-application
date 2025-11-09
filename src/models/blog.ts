@@ -4,6 +4,7 @@ export interface IBlog extends Document {
   title: string;
   slug: string;
   content: string;
+  writerName: string;
   createdAt: Date;
   updatedAt: Date;
   coverImage?: string;
@@ -15,6 +16,10 @@ const blogSchema: Schema = new Schema(
     content: { type: String, required: true },
     coverImage: { type: String },
     slug: { type: String, required: true, unique: true },
+    writerName: {
+      type: String,
+      default: "Team of StayNest",
+    },
   },
   { timestamps: true }
 );

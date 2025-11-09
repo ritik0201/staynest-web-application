@@ -6,7 +6,7 @@ import Blog from "@/models/blog";
 export async function POST(req: Request) {
   try {
     await connectDB(); // connect to MongoDB
-    const { title, content, coverImage, slug: incomingSlug } = await req.json();
+    const { title, content, coverImage, slug: incomingSlug, writerName } = await req.json();
 
     if (!title || !content) {
       return NextResponse.json({ message: "Title and content are required" }, { status: 400 });
@@ -33,6 +33,7 @@ export async function POST(req: Request) {
       slug,
       coverImage,
       content,
+      writerName,
     });
 
     return NextResponse.json(newBlog, { status: 201 });

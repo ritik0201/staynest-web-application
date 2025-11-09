@@ -72,7 +72,7 @@ export default function Home() {
       <div className="relative bg-[url('/image/background-image.jpg')] bg-cover bg-center h-screen text-white">
         <div className="absolute inset-0 bg-black/40 z-0"></div>
 
-        <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-10 ">
+        <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-16 md:pb-45 pb-20 ">
 
           {/* Header Section of home page*/}
           <div data-aos="fade-up" data-aos-delay="300" className="bg-gray-600 w-fit p-0.5 md:p-1 px-2 md:px-4 text-sm border-none rounded-2xl ml-1 md:ml-2 text-center flex justify-center items-center">

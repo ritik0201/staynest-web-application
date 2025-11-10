@@ -302,7 +302,7 @@ export default function Home() {
 
       <div className='flex justify-center'>
         <div className='py-30 container'>
-          <h1 className='text-4xl md:text-5xl font-bold text-purple-400 text-center'>Facility we Provide</h1>
+          <h2 className='text-4xl md:text-5xl font-bold text-purple-400 text-center'>Facility we Provide</h2>
           <p className='text-center px-2 md:px-40 text-base md:text-lg text-muted-foreground mt-4 md:mt-10'> We provide affordable, safe, and comfortable stays near exam centers with all essential facilities for students. Our services include clean and hygienic rooms, 24/7 water supply, and a peaceful environment for focused preparation. With quick booking, time-saving check-ins, and reliable shelter, we ensure students experience a stress-free and comfortable stay.</p>
           <div className='flex flex-wrap w-full justify-center mt-5 md:mt-15'>
             <div data-aos="zoom-in" data-aos-delay="900" className='h-[120px] md:h-[200px] w-[120px] md:w-[200px] flex flex-col items-center justify-center mr-4 mt-4 rounded-2xl bg-purple-400 hover:shadow-xl transition-shadow duration-300'>

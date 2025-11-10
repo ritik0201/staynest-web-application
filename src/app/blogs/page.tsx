@@ -2,6 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { IBlog } from "@/models/blog";
 
+export const metadata = {
+  title: "StayNest Blogs – Tips for Affordable Rooms & Travel in Prayagraj",
+  description:
+    "Read helpful articles from StayNest about budget-friendly rooms, travel tips, and living in Prayagraj.",
+};
+
 async function getBlogs() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`, {
     cache: "no-store",

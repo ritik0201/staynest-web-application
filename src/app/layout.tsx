@@ -10,7 +10,7 @@ import { Metadata } from "next";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "StayNest",
+  title: "StayNest – Affordable Rooms & Rentals in Prayagraj",
   description: "Find the comfort of your home at affordable prices.",
   icons: {
     icon: "/image/logo.png",

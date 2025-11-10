@@ -438,11 +438,11 @@ export default function RoomDetailPage() {
         <h3 className="text-2xl font-bold text-foreground mt-6 mb-4 text-center">Reviews</h3>
         <div className="flex flex-wrap ">
           {room.reviews && room.reviews.length > 0 ? (
-            room.reviews.map((review: IPopulatedReview) => (
+            room.reviews.map((review: IPopulatedReview, index: number) => (
 
 
 
-              <div key={String(review._id)} className="w-[290px] mr-4 mt-4 bg-gray-800 rounded-2xl shadow-lg border border-border p-6">
+              <div key={review._id ? String(review._id) : `review-${index}`} className="w-[290px] mr-4 mt-4 bg-gray-800 rounded-2xl shadow-lg border border-border p-6">
                 <div className="flex items-center gap-4">
                   <div className="p-3 rounded-full">
                     <User className="w-8 h-8" />

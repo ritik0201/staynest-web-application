@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Room from "@/models/room";
 import mongoose from "mongoose";
+import User from "@/models/user"; 
+import Review from "@/models/review"; 
 
-export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
-  // Await the params before using them
-  const { id } = await context.params;
+void User;
+void Review;
+
+export async function GET(req: Request, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   await dbConnect();
 
@@ -17,7 +21,18 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
   }
 
   try {
-    const room = await Room.findById(id);
+    // Use .populate() to fetch the full details for the owner and all reviews
+    const room = await Room.findById(id)
+      .populate({
+        path: 'userId', // Populate the room's owner
+        model: 'User',
+        select: '-password' // Exclude the password for security
+      })
+      .populate({
+        path: 'reviews', // Populate the reviews array
+        model: 'Review',
+        populate: { path: 'userId', model: 'User', select: 'username email' } // Nested populate for the user of each review
+      });
     if (!room) {
       return NextResponse.json(
         { success: false, message: "Room not found" },
@@ -34,9 +49,8 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
   }
 }
 
-export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
-  // Await the params before using them
-  const { id } = await context.params;
+export async function PATCH(req: Request, context: { params: { id: string } }) {
+  const { id } = context.params;
   const body = await req.json();
 
   await dbConnect();
@@ -66,9 +80,8 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   }
 }
 
-export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
-  // Await the params before using them
-  const { id } = await context.params;
+export async function DELETE(req: Request, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   await dbConnect();
 

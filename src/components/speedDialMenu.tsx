@@ -13,9 +13,9 @@ import ChatIcon from '@mui/icons-material/Chat';
 
 const actions = [
   { icon: <FacebookIcon />, name: "Facebook", url: "https://www.facebook.com/AKC112/" },
-  { icon: <TwitterIcon />, name: "Twitter", url: "https://twitter.com/" },
+  { icon: <TwitterIcon />, name: "Twitter", url: "https://x.com/RitikKumar40926" },
   { icon: <InstagramIcon />, name: "Instagram", url: "https://www.instagram.com/annukumarchaudhary/?igsh=MXJ5ZGExNXUzZjlnbA%3D%3D#" },
-  { icon: <LinkedInIcon />, name: "LinkedIn", url: "https://www.linkedin.com/" },
+  { icon: <LinkedInIcon />, name: "LinkedIn", url: "https://www.linkedin.com/in/ritik-kumar-058694318/" },
 ];
 
 export default function SocialMediaSpeedDial() {

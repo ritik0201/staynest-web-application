@@ -2,6 +2,7 @@
 import { FlipWords } from "@/components/ui/flip-words";
 import Footer from "@/components/footer";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { useDebounce } from 'use-debounce';
@@ -327,6 +328,23 @@ export default function Home() {
             </div>
 
           </div>
+        </div>
+      </div>
+
+      {/* Become a Host Section */}
+      <div className="container mx-auto px-4 py-16 text-center">
+        <h2 data-aos="fade-up" className="text-3xl md:text-4xl font-bold text-purple-400 mb-4">
+          Become a Host with StayNest
+        </h2>
+        <p data-aos="fade-up" data-aos-delay="200" className="text-muted-foreground text-lg max-w-3xl mx-auto mb-8">
+          Have a spare room? Turn it into an opportunity. Help students find a safe and comfortable place to stay for their exams and earn extra income with ease. Join our community of hosts today!
+        </p>
+        <div data-aos="fade-up" data-aos-delay="400">
+          <Link href="/owner/new-room">
+            <button className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-4 px-10 rounded-lg transition-transform transform hover:scale-105 shadow-lg text-lg">
+              List Your Room
+            </button>
+          </Link>
         </div>
       </div>
 

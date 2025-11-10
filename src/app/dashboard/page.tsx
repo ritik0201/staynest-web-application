@@ -1,6 +1,5 @@
 "use client";
 
-import { Metadata } from 'next';
 import { signOut, useSession } from "next-auth/react";
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
@@ -18,12 +17,6 @@ interface IRoomPopulatedBooking extends Omit<IBooking, 'roomId'> {
   };
   foods?: { name: string; price: number }[];
 }
-
-export const metadata: Metadata = {
-  title: "User Dashboard - StayNest",
-  description: "Manage your bookings, payments, and account settings on your StayNest dashboard.",
-};
-
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -86,7 +79,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="container w-full mx-auto p-4 pt-20 sm:p-6 lg:p-8 lg:pt-30 flex flex-col md:flex-row gap-6 text-foreground">
+    <div className="container w-full mx-auto p-4 pt-20 sm:p-6 lg:p-8 lg:pt-20 flex flex-col md:flex-row gap-6 text-foreground">
       <div className="w-full md:w-5/12">
         <div>
           <h1 className="text-4xl font-extrabold text-primary">Dashboard</h1>

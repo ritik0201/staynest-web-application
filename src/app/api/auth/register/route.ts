@@ -6,6 +6,22 @@ import { registrationSchema } from "@/schema/registrationSchema";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 
+/**
+ * Generates a random password of a given length using only uppercase letters and numbers.
+ * @param length The desired length of the password.
+ * @returns A random password string.
+ */
+function generateRandomPassword(length: number): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const randomBytes = crypto.randomBytes(length);
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = randomBytes[i] % chars.length;
+        password += chars[randomIndex];
+    }
+    return password;
+}
+
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
@@ -41,8 +57,8 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Generate secure random password
-        const randomPassword = crypto.randomBytes(6).toString("base64"); // ~8 chars
+        // Generate a secure 8-character random password with capital letters and numbers
+        const randomPassword = generateRandomPassword(6);
 
         const newUser = new User({
             username,

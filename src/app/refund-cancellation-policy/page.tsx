@@ -1,4 +1,14 @@
+import Footer from '@/components/footer';
 import React from 'react';
+
+export const metadata = {
+  title: 'StayNest - Refund & Cancellation Policy',
+  description: 'Understand the StayNest refund and cancellation policy. Learn about cancellation windows, refund eligibility, and how to cancel your booking.',
+  openGraph: {
+    title: 'StayNest - Refund & Cancellation Policy',
+    description: 'Understand the StayNest refund and cancellation policy. Learn about cancellation windows, refund eligibility, and how to cancel your booking.',
+  },
+};
 
 const RefundCancellationPolicyPage = () => {
   return (
@@ -42,6 +52,7 @@ const RefundCancellationPolicyPage = () => {
           Email: staynest0@gmail.com
         </p>
       </div>
+      < Footer />
     </div>
   );
 };

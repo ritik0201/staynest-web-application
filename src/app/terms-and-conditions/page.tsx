@@ -1,4 +1,14 @@
+import Footer from '@/components/footer';
 import React from 'react';
+
+export const metadata = {
+  title: 'StayNest - Terms & Conditions',
+  description: 'Read the StayNest Terms & Conditions to understand the agreement for using our services, including booking, payments, and user responsibilities.',
+  openGraph: {
+    title: 'StayNest - Terms & Conditions',
+    description: 'Read the StayNest Terms & Conditions to understand the agreement for using our services, including booking, payments, and user responsibilities.',
+  },
+};
 
 const TermsAndConditionsPage = () => {
   return (
@@ -46,9 +56,9 @@ const TermsAndConditionsPage = () => {
           Email: staynest0@gmail.com
         </p>
       </div>
+      < Footer/>
     </div>
   );
 };
 
 export default TermsAndConditionsPage;
-

@@ -28,11 +28,11 @@ export default async function BlogDetailPage({
       if (domNode instanceof Element) {
         const tag = domNode.name;
         const classMap: Record<string, string> = {
-          h1: "text-3xl md:text-4xl font-bold text-pink-400 mb-4",
-          h2: "text-2xl font-semibold text-purple-400 mt-6 mb-3",
-          h3: "text-1xl font-semibold text-blue-400 mt-5 mb-2",
-          h4: "text-xl font-semibold text-indigo-400 mt-4 mb-2",
-          p: "text-gray-300 leading-relaxed mb-4",
+          h1: "text-4xl md:text-4xl font-bold text-pink-400 mb-4",
+          h2: "text-3xl font-semibold mt-3 mb-3",
+          h3: "text-2xl font-semibold mt-4 mb-2",
+          h4: "text-xl font-semibold mt-3 mb-2",
+          p: "text-gray-300 leading-relaxed mb-3",
           strong: "text-white font-semibold",
           a: "text-purple-400 hover:underline",
           ul: "list-disc list-inside text-white mb-4",
@@ -52,8 +52,8 @@ export default async function BlogDetailPage({
   });
 
   return (
-    <div className="min-h-screen text-white pt-20">
-      <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen text-white pt-20 bg-gray-900/50">
+      <div className="max-w-4xl mx-auto my-12 p-6 sm:p-8 lg:p-10 bg-gray-800/60 border border-purple-500/30 rounded-2xl shadow-2xl shadow-purple-500/10">
         {blog.coverImage && (
           <div className="relative w-full h-72 mb-8">
             <Image

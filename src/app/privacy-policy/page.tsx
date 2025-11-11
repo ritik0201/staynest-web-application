@@ -1,4 +1,14 @@
+import Footer from '@/components/footer';
 import React from 'react';
+
+export const metadata = {
+  title: 'StayNest - Privacy Policy',
+  description: 'Read the StayNest privacy policy to understand how we collect, use, and protect your personal information. Learn about your data rights and our security measures.',
+  openGraph: {
+    title: 'StayNest - Privacy Policy',
+    description: 'Read the StayNest privacy policy to understand how we collect, use, and protect your personal information. Learn about your data rights and our security measures.',
+  },
+};
 
 const PrivacyPolicyPage = () => {
   return (
@@ -50,9 +60,9 @@ const PrivacyPolicyPage = () => {
           Email: staynest0@gmail.com
         </p>
       </div>
+      < Footer />
     </div>
   );
 };
 
 export default PrivacyPolicyPage;
-

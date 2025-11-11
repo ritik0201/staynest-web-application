@@ -8,7 +8,18 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { ArrowRight } from "lucide-react";
 import { useDebounce } from 'use-debounce';
+
+interface IBlog {
+  _id: string;
+  title: string;
+  slug: string;
+  coverImage?: string;
+  content: string;
+  writerName: string;
+  createdAt: string;
+}
 
 export default function Home() {
   const router = useRouter();
@@ -23,6 +34,7 @@ export default function Home() {
   const [debouncedCity] = useDebounce(city, 300);
   const { data: session } = useSession();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [blogs, setBlogs] = useState<IBlog[]>([]);
 
   const handleSearch = () => {
     const query = new URLSearchParams();
@@ -73,6 +85,30 @@ export default function Home() {
   useEffect(() => {
     fetchSuggestions('city', debouncedCity);
   }, [debouncedCity, fetchSuggestions]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch('/api/blogs');
+        const data = await res.json();
+        if (res.ok) {
+          setBlogs(data.slice(0, 3)); // Get the first 3 blogs
+        }
+      } catch (error) {
+        console.error("Failed to fetch blogs:", error);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
+  const stripHtml = (html: string) => {
+    if (typeof window !== 'undefined') {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      return doc.body.textContent || "";
+    }
+    // Basic fallback for server-side rendering
+    return html.replace(/<[^>]*>/g, '');
+  };
 
   const words = ["STAY", "PEACE", "REST ROOM", "ON CENTER"];
 
@@ -274,6 +310,49 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Blog Section */}
+      <div className="container mx-auto px-4 py-16">
+        <h2 data-aos="fade-up" className="text-4xl md:text-5xl font-bold text-purple-400 text-center mb-4">
+          Latest From Our Blog
+        </h2>
+        <p data-aos="fade-up" data-aos-delay="150" className="text-center text-muted-foreground text-lg mb-12 max-w-2xl mx-auto">
+          Fresh perspectives and helpful tips for your academic journey.
+        </p>
+        <div data-aos="fade-up" data-aos-delay="300" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {blogs.map((blog) => (
+            <Link key={blog._id} href={`/blogs/${blog.slug}`} passHref>
+              <div className="bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-purple-500/40 border border-border group transform hover:-translate-y-2 transition-all duration-300 h-full flex flex-col">
+                <div className="relative w-full h-56">
+                  <Image
+                    src={blog.coverImage || '/image/placeholder.png'}
+                    alt={blog.title}
+                    layout="fill"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6 flex-grow flex flex-col">
+                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-purple-400 transition-colors">
+                    {blog.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 flex-grow">
+                    {stripHtml(blog.content).substring(0, 100)}...
+                  </p>
+                  <div className="text-xs text-gray-500 mt-auto">
+                    <span>{blog.writerName}</span> &middot; <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div data-aos="fade-up" className="text-center mt-12">
+          <Link href="/blogs" className="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 shadow-lg text-lg">
+            Explore More Articles
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </div>
 

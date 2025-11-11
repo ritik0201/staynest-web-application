@@ -6,7 +6,7 @@ import RegisterModal from "@/components/modal";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import { User, Settings, LogOut } from "lucide-react";
+import { User, Mail, LogOut } from "lucide-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { Person, ArrowDropDown } from '@mui/icons-material';
@@ -64,10 +64,16 @@ export default function Navbar() {
             Dashboard
           </Link>
           <Link
-            href="/contact"
+            href="/contact-us"
             className="px-4 py-2 rounded-md transition-colors duration-200"
           >
-            Contact
+            Contact-us
+          </Link>
+          <Link
+            href="/about-us"
+            className="px-4 py-2 rounded-md transition-colors duration-200"
+          >
+            About-us
           </Link>
         </div>
 
@@ -111,10 +117,10 @@ export default function Navbar() {
                     </MenuItem>
                     <MenuItem onClick={popupState.close}>
                       <Link
-                        href={"/profile"}
+                        href={"/contact-us"}
                         className="w-full flex items-center gap-4 text-white px-8 py-2"
                       >
-                        <Settings size={22} /> Account
+                        <Mail size={22} /> Contact-us
                       </Link>
                     </MenuItem>
                     <MenuItem
@@ -169,11 +175,18 @@ export default function Navbar() {
               Blogs
             </Link>
             <Link
-              href="/contact"
+              href="/contact-us"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
             >
-              Contact
+              Contact-us
+            </Link>
+            <Link
+              href="/about-us"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-md hover:bg-blue-100 transition-colors"
+            >
+              About-us
             </Link>
             <Link
               href="/dashboard"

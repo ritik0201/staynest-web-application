@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { IBlog } from "@/models/blog";
+import Footer from "@/components/footer";
 
 export const metadata = {
   title: "StayNest Blogs – Tips for Affordable Rooms & Travel in Prayagraj",
@@ -24,7 +25,7 @@ export default async function BlogsPage() {
   const blogs: IBlog[] = await getBlogs();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white pt-20 py-10">
+    <div className="min-h-screen bg-gray-900 text-white pt-20">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-extrabold mb-12 text-center">
           <span className="">Latest Blogs</span>
@@ -62,6 +63,7 @@ export default async function BlogsPage() {
           </div>
         )}
       </div>
+      < Footer />
     </div>
   );
 }

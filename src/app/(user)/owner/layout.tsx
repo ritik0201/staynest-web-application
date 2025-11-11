@@ -7,6 +7,7 @@ import {
   HomeIcon,
   BookUserIcon,
 } from "lucide-react";
+import Footer from "@/components/footer";
 
 const sidebarItems = [
   { href: "/owner", icon: HomeIcon, label: "Owner" },
@@ -55,6 +56,7 @@ export default function AppLayout({
       {/* Page Content */}
       <main className="flex-grow overflow-y-auto p-0 bg-base-100">
         {children}
+        < Footer/>
       </main>
     </div>
   );

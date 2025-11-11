@@ -15,6 +15,7 @@ import Image from "next/image";
 import PayButton from "@/components/RazorpayButton";
 import { IRoom } from "@/models/room";
 import { IReview } from "@/models/review";
+import Footer from "@/components/footer";
 
 // Define interfaces for populated data to ensure type safety
 interface IPopulatedUser {
@@ -284,6 +285,7 @@ export default function RoomDetailPage() {
   } : null;
 
   return (
+    <div>
     <div className="container mx-auto p-6 pt-20 ">
       <div className="flex flex-col md:flex-row gap-2">
         <div className="w-full md:w-8/12">
@@ -686,5 +688,7 @@ export default function RoomDetailPage() {
         </div>
       )}
     </div>
+    <Footer />
+      </div>
   );
 }

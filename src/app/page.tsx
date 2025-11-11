@@ -1,10 +1,13 @@
 'use client'
 import { FlipWords } from "@/components/ui/flip-words";
 import Footer from "@/components/footer";
+import RegisterModal from "@/components/modal";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 import { useDebounce } from 'use-debounce';
 
 export default function Home() {
@@ -18,6 +21,8 @@ export default function Home() {
   const [showCitySuggestions, setShowCitySuggestions] = useState(false);
   const [debouncedCenter] = useDebounce(center, 300);
   const [debouncedCity] = useDebounce(city, 300);
+  const { data: session } = useSession();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleSearch = () => {
     const query = new URLSearchParams();
@@ -27,6 +32,15 @@ export default function Home() {
 
     router.push(`/rooms?${query.toString()}`);
   };
+
+  const handleListRoomClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!session) {
+      e.preventDefault();
+      toast.info("Please login first to add new room.");
+      setIsLoginModalOpen(true);
+    }
+  };
+
 
   const fetchSuggestions = useCallback(async (type: 'center' | 'city', query: string) => {
     if (query.length < 2) {
@@ -263,44 +277,6 @@ export default function Home() {
         </div>
       </div>
 
-
-      {/* <div className="max-w-6xl mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold text-center text-blue-700 mb-6">Dream Destination</h1>
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
-           ipsum dolor sit amet consectetur adipisicing elit. Ea similique reprehenderit labore animi cumque beatae.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
-            <Image
-              src="/image/image2.jpeg"
-              alt="A tropical beach with palm trees and clear water"
-              width={400}
-              height={192}
-              className="w-full h-48 object-cover" />
-            <p className="p-4 text-center text-gray-700 font-medium">Tropical Beach</p>
-          </div>
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
-            <Image
-              src="/image/image3.jpg"
-              alt="Misty mountains at sunrise"
-              width={400}
-              height={192}
-              className="w-full h-48 object-cover" />
-            <p className="p-4 text-center text-gray-700 font-medium">Misty Mountains</p>
-          </div>
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-300">
-            <Image
-              src="/image/image4.jpg"
-              alt="A modern cityscape at night with illuminated skyscrapers"
-              width={400}
-              height={192}
-              className="w-full h-48 object-cover" />
-            <p className="p-4 text-center text-gray-700 font-medium">Modern Cityscape</p>
-          </div>
-        </div>
-      </div> */}
-
       <div className='flex justify-center'>
         <div className='py-30 container'>
           <h2 className='text-4xl md:text-5xl font-bold text-purple-400 text-center'>Facility we Provide</h2>
@@ -340,14 +316,17 @@ export default function Home() {
           Have a spare room? Turn it into an opportunity. Help students find a safe and comfortable place to stay for their exams and earn extra income with ease. Join our community of hosts today!
         </p>
         <div data-aos="fade-up" data-aos-delay="400">
-          <Link href="/owner/new-room">
-            <button className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-4 px-10 rounded-lg transition-transform transform hover:scale-105 shadow-lg text-lg">
+          <Link href="/owner/new-room" passHref>
+            <button
+              onClick={handleListRoomClick}
+              className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-4 px-10 rounded-lg transition-transform transform hover:scale-105 shadow-lg text-lg"
+            >
               List Your Room
             </button>
           </Link>
         </div>
       </div>
-
+      <RegisterModal open={isLoginModalOpen} handleClose={() => setIsLoginModalOpen(false)} />
       <Footer />
     </div>
 

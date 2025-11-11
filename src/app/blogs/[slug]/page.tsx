@@ -1,6 +1,7 @@
 import React from "react";
 import parse, { Element } from "html-react-parser";
 import Image from "next/image";
+import Footer from "@/components/footer";
 
 // Fetch a single blog using slug
 async function getBlog(slug: string) {
@@ -51,7 +52,7 @@ export default async function BlogDetailPage({
   });
 
   return (
-    <div className="min-h-screen text-white pt-20 py-10">
+    <div className="min-h-screen text-white pt-20">
       <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         {blog.coverImage && (
           <div className="relative w-full h-72 mb-8">
@@ -82,6 +83,7 @@ export default async function BlogDetailPage({
           <div>{styledContent}</div>
         </article>
       </div>
+      < Footer/>
     </div>
   );
 }

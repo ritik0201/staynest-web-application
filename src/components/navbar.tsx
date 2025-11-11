@@ -33,7 +33,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-full z-50 bg-gradient-to-r from-purple-700 to-purple-900 shadow-md">
+    <nav className="fixed w-full z-100 bg-gradient-to-r from-purple-700 to-purple-900 shadow-md">
       {/* Removed max-w-7xl mx-auto so content goes edge to edge */}
       <div className="flex justify-between items-center h-14 px-4 sm:px-6 lg:px-8">
         {/* Left: Company logo/name */}

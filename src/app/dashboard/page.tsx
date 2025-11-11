@@ -9,6 +9,7 @@ import { Calendar, Clock, CheckCircle, IndianRupeeIcon, Lock, ChevronRight, Book
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, CircularProgress } from '@mui/material';
 import { IBooking } from "@/models/booking";
 import { BorderBeam } from "@/components/ui/border-beam";
+import Footer from "@/components/footer";
 
 interface IRoomPopulatedBooking extends Omit<IBooking, 'roomId'> {
   roomId: {
@@ -79,6 +80,7 @@ export default function DashboardPage() {
   };
 
   return (
+    <div>
     <div className="container w-full mx-auto p-4 pt-20 sm:p-6 lg:p-8 lg:pt-20 flex flex-col md:flex-row gap-6 text-foreground">
       <div className="w-full md:w-5/12">
         <div>
@@ -283,6 +285,8 @@ export default function DashboardPage() {
           </form>
         </DialogContent>
       </Dialog>
+      </div>
+      <Footer />
     </div>
   );
 }

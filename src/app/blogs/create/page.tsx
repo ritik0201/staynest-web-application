@@ -94,6 +94,7 @@ export default function CreateBlog() {
       setCoverImage("");
       setCoverImageFile(null);
       setContent("");
+      setWriterName("");
     } catch (error) {
       console.error(error);
       toast.error("Error creating blog. Please try again.");
@@ -177,27 +178,37 @@ export default function CreateBlog() {
         </div>
 
         {/* React Quill text editor */}
-        <div className="bg-white rounded-lg quill-container border border-gray-200">
+        <div className="bg-white rounded-lg quill-container border border-gray-200 h-80">
           <ReactQuill
             theme="snow"
             value={content}
             onChange={setContent}
             modules={modules}
-            className="h-64 md:h-96"
+            className="h-full"
             placeholder="Start writing your blog content here..."
           />
         </div>
 
         <style jsx global>{`
+          .quill-container {
+            display: flex;
+            flex-direction: column;
+          }
+
+          .quill-container .ql-toolbar {
+            border-bottom: 1px solid #e5e7eb;
+          }
+
           .quill-container .ql-editor {
             color: black;
-            height: 100%;
+            flex: 1;
             overflow-y: auto;
+            max-height: calc(100% - 42px);
           }
         `}</style>
 
         {/* Submit button */}
-        <div className="mt-20 flex flex-col md:flex-row justify-end items-center gap-4">
+        <div className="mt-20 flex flex-col md:flex-row justify-end items-center gap-4 pt-6 border-t border-gray-200">
               <input
                 type="text"
                 value={writerName}

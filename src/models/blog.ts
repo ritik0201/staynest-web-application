@@ -1,4 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
+
+export interface IComment extends Document {
+  comment: string;
+    username: string;
+    createdAt: Date;
+}
+
+
 export interface IBlog extends Document {
   _id: string;
   title: string;
@@ -8,7 +16,19 @@ export interface IBlog extends Document {
   createdAt: Date;
   updatedAt: Date;
   coverImage?: string;
+  comments: IComment[];
 }
+
+const commentSchema: Schema = new Schema(
+  {
+    comment: { type: String, required: true },
+    username: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
 const blogSchema: Schema = new Schema(
   {
@@ -20,6 +40,7 @@ const blogSchema: Schema = new Schema(
       type: String,
       default: "Team of StayNest",
     },
+    comments: [commentSchema],
   },
   { timestamps: true }
 );

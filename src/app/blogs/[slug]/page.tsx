@@ -2,15 +2,21 @@ import React from "react";
 import parse, { Element } from "html-react-parser";
 import Image from "next/image";
 import Footer from "@/components/footer";
+import CommentForm from "@/components/CommentForm";
+import { IComment } from "@/models/blog";
 
 // Fetch a single blog using slug
 async function getBlog(slug: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${slug}`, {
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${slug}`;
+  console.log(`Attempting to fetch blog from: ${url}`);
+  const res = await fetch(url, {
     cache: "no-store",
   });
 
-  if (!res.ok) throw new Error("Failed to fetch blog");
-
+  if (!res.ok) {
+    const errorText = await res.text(); // Get the response body as text
+    throw new Error(`Failed to fetch blog: Status ${res.status}, Message: ${errorText}`);
+  }
   return res.json();
 }
 
@@ -28,7 +34,7 @@ export default async function BlogDetailPage({
       if (domNode instanceof Element) {
         const tag = domNode.name;
         const classMap: Record<string, string> = {
-          h1: "text-4xl md:text-4xl font-bold text-pink-400 mb-4",
+          h1: "text-4xl md:text-5xl font-bold mb-4",
           h2: "text-3xl font-semibold mt-3 mb-3",
           h3: "text-2xl font-semibold mt-4 mb-2",
           h4: "text-xl font-semibold mt-3 mb-2",
@@ -82,6 +88,29 @@ export default async function BlogDetailPage({
           {/* Dynamic content rendering with automatic class injection */}
           <div>{styledContent}</div>
         </article>
+
+        <div className="mt-16 pt-8 border-t border-purple-500/30">
+          <h2 className="text-3xl font-bold mb-6">Comments ({blog.comments?.length || 0})</h2>
+          <div className="space-y-6 mb-10">
+            {blog.comments && blog.comments.length > 0 ? (
+              blog.comments.map((comment: IComment, index: number) => (
+                  <div key={index} className="p-4 bg-gray-700/50 rounded-lg border border-gray-600" >
+                  <div className="flex items-center mb-2 flex-wrap">
+                    <p className="font-semibold text-purple-300">{comment.username}</p>
+                    <span className="text-gray-500 mx-2">•</span>
+                    <p className="text-xs text-gray-400">
+                      {new Date(comment.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <p className="text-gray-300">{comment.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">No comments yet. Be the first to comment!</p>
+            )}
+          </div>
+          <CommentForm slug={slug} />
+        </div>
       </div>
       < Footer/>
     </div>

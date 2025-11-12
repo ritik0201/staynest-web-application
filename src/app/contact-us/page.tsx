@@ -4,7 +4,7 @@ import { useState } from "react";
 import Footer from "@/components/footer";
 import { toast } from "sonner";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 
 // export const metadata: Metadata = {
 //   title: "Contact StayNest | 24x7 Support & Booking Assistance",

@@ -4,13 +4,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Login({ handleClose }: { handleClose: () => void }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -20,10 +18,9 @@ export default function Login({ handleClose }: { handleClose: () => void }) {
       redirect: false,
     });
     setLoading(false);
-
     if (res?.ok) {
       handleClose();
-      router.push("/dashboard");
+      router.refresh();
       toast.success("Login successful");
     } else {
       toast.error("Login failed");
@@ -33,17 +30,22 @@ export default function Login({ handleClose }: { handleClose: () => void }) {
   return (
     <div className="h-auto flex items-center justify-center">
       <div className="w-full max-w-sm bg-[#f5f5f5] px-8 pt-6 pb-4 space-y-6 rounded-xl relative">
-        
-        {/* Logo and Company Name (Top-Left) */}
         <div className="absolute top-4 left-4 flex items-center gap-2 ">
-          <Image src="/image/logo.png" className="w-8 h-8" alt="logo" width={32} height={32} />
+          <Image
+            src="/image/logo.png"
+            className="w-8 h-8"
+            alt="logo"
+            width={32}
+            height={32}
+          />
           <p className="text-black text-lg font-semibold">StayNest</p>
         </div>
 
-        {/* Add spacing to prevent overlapping with logo */}
-        <div className="pt-4" />
+        <div className="pt-4"></div>
 
-        <h2 className="text-2xl font-bold text-center text-purple-800">Login</h2>
+        <h2 className="text-2xl font-bold text-center text-purple-800">
+          Login
+        </h2>
 
         <input
           name="email"
@@ -51,7 +53,6 @@ export default function Login({ handleClose }: { handleClose: () => void }) {
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 border-purple-300 focus:ring-purple-600 text-purple-600"
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
-
         <input
           type="password"
           name="password"
@@ -60,7 +61,6 @@ export default function Login({ handleClose }: { handleClose: () => void }) {
           className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-purple-600"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
-
         <button
           onClick={handleLogin}
           disabled={loading}

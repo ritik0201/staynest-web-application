@@ -8,6 +8,7 @@ import AppThemeProvider from "@/components/ThemeProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Metadata } from "next";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "StayNest – Affordable Rooms & Rentals in Prayagraj",
@@ -74,7 +75,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
 
-        {/* ✅ Website Schema */}
         <Script
           id="website-schema"
           type="application/ld+json"
@@ -97,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Navbar />
                 <AOSProvider />
                 {children}
+                <SpeedInsights />
                 <SpeedDialMenu />
                 <Toaster richColors theme="dark" />
               </Providers>

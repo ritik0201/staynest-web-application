@@ -89,12 +89,12 @@ export default function ContactPage() {
             <p className="text-slate-300 mb-4">
               Our support team is available by phone 24×7.
             </p>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <div className="text-sm text-slate-400">Phone</div>
                 <div className="text-lg font-medium">{PHONE}</div>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-3 w-full sm:w-auto">
                 <button
                   onClick={handleCall}
                   className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md font-medium transition-colors"
@@ -106,7 +106,7 @@ export default function ContactPage() {
                     navigator.clipboard?.writeText(PHONE);
                     toast.success("Phone number copied to clipboard!");
                   }}
-                  className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md font-medium transition-colors"
+                  className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md font-medium transition-colors flex-1 sm:flex-initial"
                 >
                   Copy
                 </button>
@@ -120,12 +120,12 @@ export default function ContactPage() {
             <p className="text-slate-300 mb-4">
               Send us your queries or feedback — we usually reply within a few hours.
             </p>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <div className="text-sm text-slate-400">Email</div>
                 <div className="text-lg font-medium">{EMAIL}</div>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => (window.location.href = `mailto:${EMAIL}`)}
                   className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md font-medium transition-colors"
@@ -137,7 +137,7 @@ export default function ContactPage() {
                     navigator.clipboard?.writeText(EMAIL);
                     toast.success("Email address copied to clipboard!");
                   }}
-                  className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md font-medium transition-colors"
+                  className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-md font-medium transition-colors flex-1 sm:flex-initial"
                 >
                   Copy
                 </button>
@@ -187,18 +187,18 @@ export default function ContactPage() {
               required
             />
 
-            <div className="sm:col-span-2 flex justify-end gap-3">
+            <div className="sm:col-span-2 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
               <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 px-6 py-2 rounded-md font-medium transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 px-6 py-3 sm:py-2 rounded-md font-medium transition-colors"
               >
                 {loading ? <CircularProgress size={20} color="inherit" /> : "Send Message"}
               </button>
               <button
                 type="button"
                 onClick={() => setForm({ name: "", email: "", subject: "", message: "" })}
-                className="bg-slate-600 hover:bg-slate-500 px-6 py-2 rounded-md font-medium transition-colors"
+                className="bg-slate-600 hover:bg-slate-500 px-6 py-3 sm:py-2 rounded-md font-medium transition-colors"
               >
                 Reset
               </button>

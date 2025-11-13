@@ -31,8 +31,22 @@ export default async function BlogDetailPage({
   // Parse and style content dynamically
   const styledContent = parse(blog.content, {
     replace: (domNode) => {
-      if (domNode instanceof Element) {
+      if (domNode instanceof Element && domNode.attribs) {
         const tag = domNode.name;
+
+        // Handle empty list items
+        if (tag === 'li' && domNode.children.length === 1) {
+          const child = domNode.children[0];
+          if (child instanceof Element) {
+            // Handles <li ...><span ...></span><br></li>
+            if (child.name === 'span' && child.next && child.next.type === 'tag' && child.next.name === 'br') {
+              return <></>;
+            }
+            // Handles <li ...><br></li>
+            if (child.name === 'br') return <></>;
+          }
+        }
+
         const classMap: Record<string, string> = {
           h1: "text-4xl md:text-5xl font-bold mb-4",
           h2: "text-3xl font-semibold mt-3 mb-3",
@@ -43,8 +57,13 @@ export default async function BlogDetailPage({
           a: "text-purple-400 hover:underline",
           ul: "list-disc list-inside text-white mb-4",
           ol: "list-decimal list-inside text-white mb-4",
-          li: "mb-1",
+          li: "mb-1 pl-10", // Added pl-5 for 20px left padding
         };
+
+        // Add bullet point style for lists that should be unordered
+        if (tag === 'li' && domNode.attribs['data-list'] === 'bullet') {
+          domNode.attribs.className = `${domNode.attribs.className || ""} list-disc`;
+        }
 
         const extraClass = classMap[tag];
         if (extraClass) {

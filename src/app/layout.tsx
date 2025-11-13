@@ -8,7 +8,13 @@ import AppThemeProvider from "@/components/ThemeProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Metadata } from "next";
 import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "StayNest – Affordable Rooms & Rentals in Prayagraj",
@@ -46,7 +52,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`${inter.className} dark`}>
       <head>
         <Script
           id="organization-schema"

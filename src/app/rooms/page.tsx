@@ -233,6 +233,7 @@ function RoomsPageContent() {
                     alt={room.roomOwner}
                     width={400}
                     height={256}
+                    //sizes="(max-width: 640px) 90vw, (max-width: 768px) 30vw, 33vw"
                     className="w-full h-full object-cover"
                   />
                 </div>

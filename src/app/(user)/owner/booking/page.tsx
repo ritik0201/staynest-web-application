@@ -10,11 +10,12 @@ interface IBooking {
   roomId: { nearByCentre: string };
   userId: { username: string };
   fullName: string;
+  enrollmentNumber: string;
   startTime: string;
   endTime: string;
   totalCost: number;
   foods?: { name: string; price: number }[];
-  status: 'booked' | 'completed';
+  status: 'booked' | 'completed' | 'canceled';
 }
 
 export default function OwnerBookingsPage() {
@@ -70,11 +71,12 @@ export default function OwnerBookingsPage() {
               <div className="flex flex-col md:flex-row justify-between md:items-center border-b border-gray-700 pb-4 mb-4">
                 <div>
                   <h3 className="text-xl font-bold text-primary">{booking.roomId.nearByCentre}</h3>
-                  <p className="text-sm text-muted-foreground">Booked by: {booking.fullName} ({booking.userId.username})</p>
+                  <p className="text-sm text-muted-foreground">Booked by: {booking.fullName} ({booking.userId?.username})</p>
+                  <p className="text-sm text-muted-foreground">Enrollment No: {booking.enrollmentNumber}</p>
                 </div>
                 <div className="text-right mt-2 md:mt-0">
                   <p className="text-lg font-semibold text-green-500">Total: ₹{booking.totalCost.toFixed(2)}</p>
-                  <p className={`text-xs font-semibold uppercase tracking-wider px-2 py-1 rounded-full inline-block mt-1 ${booking.status === 'booked' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                  <p className={`text-xs font-semibold uppercase tracking-wider px-2 py-1 rounded-full inline-block mt-1 ${booking.status === 'booked' ? 'bg-green-500/20 text-green-400' : booking.status === 'completed' ? 'bg-blue-500/20 text-blue-400' : 'bg-red-500/20 text-red-400'}`}>
                     {booking.status}
                   </p>
                 </div>

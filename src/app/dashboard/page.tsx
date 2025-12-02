@@ -211,12 +211,17 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="flex-shrink-0" onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}>
-                      {!booking.paymentId ? (
+                      {!booking.paymentId && new Date() < new Date(booking.endTime) ? (
                         <PayButton amount={booking.totalCost} bookingId={String(booking._id)} />
+                      ) : booking.status === 'canceled' || (!booking.paymentId && new Date() > new Date(booking.endTime)) ? (
+                        <span className="inline-flex items-center text-xs font-semibold bg-red-600/20 text-red-400 px-2.5 py-1 rounded-full">
+                          <CheckCircle className="w-4 h-4 mr-1.5" /> Canceled
+                        </span>
                       ) : booking.status === 'completed' ? (
                         <span className="inline-flex items-center text-xs font-semibold bg-blue-600/20 text-blue-400 px-2.5 py-1 rounded-full">
                           <CheckCircle className="w-4 h-4 mr-1.5" /> Completed
                         </span>
+
                       ) : (
                         <span className="inline-flex items-center text-xs font-semibold bg-green-600/20 text-green-400 px-2.5 py-1 rounded-full">
                           <CheckCircle className="w-4 h-4 mr-1.5" /> Booked

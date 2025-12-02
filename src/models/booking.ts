@@ -20,7 +20,7 @@ export interface IBooking extends Document {
   totalHours: number;
   totalCost: number;
   paymentId?: string;
-  status: 'booked' | 'completed';
+  status: 'booked' | 'completed' | 'canceled';
   createdAt: Date;
   updatedAt: Date;
   foods?: { name: string; price: number }[];
@@ -74,7 +74,7 @@ const bookingSchema = new Schema<IBooking>({
   },
   status: {
     type: String, 
-    enum: ['booked', 'completed'],
+    enum: ['booked', 'completed', 'canceled'],
     default: 'booked',
   },
   foods: {
@@ -93,7 +93,7 @@ const bookingSchema = new Schema<IBooking>({
 
 bookingSchema.post('findOneAndUpdate', async function (res) {
   if (!res) return;
-  if (res.status === 'completed') {
+  if (res.status === 'completed' || res.status === 'canceled') {
     await Room.findByIdAndUpdate(res.roomId, { isAvailable: true });
   }
 });

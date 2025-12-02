@@ -6,11 +6,7 @@ import { registrationSchema } from "@/schema/registrationSchema";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 
-/**
- * Generates a random password of a given length using only uppercase letters and numbers.
- * @param length The desired length of the password.
- * @returns A random password string.
- */
+
 function generateRandomPassword(length: number): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const randomBytes = crypto.randomBytes(length);

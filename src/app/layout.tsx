@@ -54,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.className} dark`}>
       <head>
+        <meta name="google" content="notranslate" />
         <Script
           id="organization-schema"
           type="application/ld+json"

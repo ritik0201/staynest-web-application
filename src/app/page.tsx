@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { ArrowRight } from "lucide-react";
 import { useDebounce } from 'use-debounce';
+import InstallPWAButton from "@/components/InstallPWAButton";
 
 interface IBlog {
   _id: string;
@@ -214,6 +215,9 @@ export default function Home() {
             </div>
           </div>
 
+          <div data-aos="fade-up" data-aos-delay="1400" className="mt-4">
+            <InstallPWAButton />
+          </div>
 
         </div>
       </div>

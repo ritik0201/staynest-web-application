@@ -10,6 +10,7 @@ import { User, Mail, LogOut } from "lucide-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { Person, ArrowDropDown } from '@mui/icons-material';
+import InstallPWAButton from "@/components/InstallPWAButton";
 
 
 import Menu from "@mui/material/Menu";
@@ -79,6 +80,7 @@ export default function Navbar() {
 
         {/* Right: Desktop buttons */}
         <div className="hidden md:flex items-center space-x-3">
+          <InstallPWAButton />
           {!session ? (
             <>
               <button
@@ -196,6 +198,7 @@ export default function Navbar() {
               Dashboard
             </Link>
 
+            <InstallPWAButton />
             {!session ? (
               <button
                 onClick={() => {

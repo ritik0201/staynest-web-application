@@ -93,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }),
           }}
         />
+        <link rel="manifest" href="/manifest.json" />
       </head>
 
       <body>
